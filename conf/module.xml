@@ -217,6 +217,7 @@
         <action name="procShopServiceMoveCategory" type="controller" standalone="true" />
         <action name="procShopServiceDeleteCategory" type="controller" standalone="true" />
         <action name="procShopServiceGetCategory" type="controller" standalone="true" />
+        <action name="procShopDownloadProduct" type="controller" standalone="true" />
 
         <!-- Product attributes -->
         <action name="dispShopToolManageAttributes" type="view"/>

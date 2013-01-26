@@ -37,7 +37,8 @@ class Order extends BaseItem implements IProductItemsContainer
         $discount_tax_phase,
         $discount_reduction_value,
         $coupon_discount_value,
-        $currency;
+        $currency,
+        $download_email_address;
 
     /** @var Cart */
     public $cart;
@@ -91,6 +92,7 @@ class Order extends BaseItem implements IProductItemsContainer
         $this->order_status = Order::ORDER_STATUS_PENDING;
         $this->ip = $_SERVER['REMOTE_ADDR'];
         $this->currency = $shopInfo->getCurrency();
+        $this->download_email_address = $cart->getExtra('download_email_address');
         if ($discount = $cart->getDiscount()) {
             $this->discount_min_order = $discount->getMinValueForDiscount();
             $this->discount_type = $shopInfo->getShopDiscountType();

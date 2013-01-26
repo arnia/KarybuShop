@@ -231,6 +231,38 @@ class PaymentMethodRepository extends AbstractPluginRepository
     }
 
     /**
+     * Retrieve applicable payment methods for specific cart.
+     * (E.g. For a cart containing downloadable products, "Cash on Delivery" is not appropriate)
+     *
+     * @author Razvan Nutu(dev@xpressengine.org)
+     *
+     * @param $module_srl
+     * @param Cart $cart
+     */
+    public function getApplicablePaymentMethods($module_srl, Cart $cart){
+        $activePaymentMethods = $this->getActivePaymentMethods($module_srl);
+        global $lang;
+        if ($cart->hasDownloadableProducts()){
+            // TODO
+            $applicableMethods = array();
+            foreach($activePaymentMethods as $activePaymentMethod){
+                if ($activePaymentMethod instanceof CashOnDelivery)
+                    continue;
+                $applicableMethods[] = $activePaymentMethod;
+            }
+            if (count($applicableMethods) == 0){
+                // this is wrong, the Administrator should activate other methods
+                // in order to deal with downloadable products
+                throw new ShopException($lang->no_applicable_payment_method);
+            }
+            return $applicableMethods;
+        }
+        else{
+            return $activePaymentMethods;
+        }
+    }
+
+    /**
      * Deletes a  payment method
      */
     public function deletePaymentMethod($name, $module_srl) {

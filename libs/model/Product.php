@@ -234,7 +234,7 @@ class SimpleProduct extends Product implements ICartItemProduct
 /**
  * Model class for configurable product
  */
-class ConfigurableProduct extends Product
+class ConfigurableProduct extends Product implements ICartItemProduct
 {
 	public $associated_products = array();
 	public $configurable_attributes = array(); // Associated array: [attribute srl] => [attribute title]
@@ -264,6 +264,7 @@ class ConfigurableProduct extends Product
  */
 class DownloadableProduct extends Product implements ICartItemProduct
 {
+    const PRODUCT_CONTENT_DIR = './files/attach/contents/shop/%d/product-contents/%d/';
 
     public function __construct($args = null)
     {
@@ -275,6 +276,19 @@ class DownloadableProduct extends Product implements ICartItemProduct
     {
         return 'ProductRepository';
     }
+
+    public function isInStock()
+    {
+        if(strtoupper(trim($this->in_stock)) === 'Y')
+            return true;
+        return false;
+    }
+
+    public function getContentPath(){
+        $dir = sprintf(self::PRODUCT_CONTENT_DIR, $this->module_srl , $this->product_srl);
+        return $dir.$this->content_filename;
+    }
+
 }
 
 /**

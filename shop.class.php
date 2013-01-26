@@ -95,6 +95,7 @@ class shop extends ModuleObject {
         if(!$oDB->isColumnExists("shop_orders","discount_tax_phase")) return true;
         if(!$oDB->isColumnExists("shop_orders","currency")) return true;
         if(!$oDB->isColumnExists("shop_orders","discount_reduction_value")) return true;
+        if(!$oDB->isColumnExists("shop_orders","download_email_address")) return true;
 
         if($oDB->isColumnExists("shop_categories","order")) return true;
         if(!$oDB->isColumnExists("shop_categories","list_order")) return true;
@@ -323,6 +324,7 @@ class shop extends ModuleObject {
         if (!$oDB->isColumnExists("shop_orders","discount_tax_phase")) $oDB->addColumn('shop_orders',"discount_tax_phase","varchar", 20);
         if (!$oDB->isColumnExists("shop_orders","discount_reduction_value")) $oDB->addColumn('shop_orders',"discount_reduction_value","float", 20);
         if (!$oDB->isColumnExists("shop_orders","currency")) $oDB->addColumn('shop_orders',"currency","varchar", 10);
+        if (!$oDB->isColumnExists("shop_orders","download_email_address")) $oDB->addColumn('shop_orders',"download_email_address","varchar", 255);
 
 //			if ($oDB->isColumnExists("shop_orders","total"))
 //			{

@@ -381,8 +381,8 @@
 		<value xml:lang="en"><![CDATA[Product Type]]></value>
 	</item>
 	<item name="no_product">
-		<value xml:lang="ko"><![CDATA[There is no product added, <a href="%s">Add simple product</a> or <a href="%s">Add configurable product</a>. ]]></value>
-		<value xml:lang="en"><![CDATA[There is no product added, <a href="%s">Add simple product</a> or <a href="%s">Add configurable product</a>. ]]></value>
+        <value xml:lang="ko"><![CDATA[There is no product added, <a href="%s">Add simple product</a>, <a href="%s">Add downloadable product</a> or <a href="%s">Add configurable product</a>. ]]></value>
+		<value xml:lang="en"><![CDATA[There is no product added, <a href="%s">Add simple product</a>, <a href="%s">Add downloadable product</a> or <a href="%s">Add configurable product</a>. ]]></value>
 	</item>
 	<item name="msg_confirm_delete_product">
 		<value xml:lang="ko"><![CDATA[Are you sure you want to delete this product?]]></value>
@@ -464,7 +464,10 @@
 		<value xml:lang="ko"><![CDATA[Add configurable product]]></value>
 		<value xml:lang="en"><![CDATA[Add configurable product]]></value>
 	</item>
-	<item name="select_attributes">
+    <item name="add_downloadable_product">
+        <value xml:lang="ko"><![CDATA[Add downloadable product]]></value>
+        <value xml:lang="en"><![CDATA[Add downloadable product]]></value>
+    </item>	<item name="select_attributes">
 		<value xml:lang="ko"><![CDATA[Select attributes]]></value>
 		<value xml:lang="en"><![CDATA[Select attributes]]></value>
 	</item>
@@ -504,6 +507,10 @@
 		<value xml:lang="ko"><![CDATA[Upload Files]]></value>
 		<value xml:lang="en"><![CDATA[Upload Files]]></value>
 	</item>
+    <item name="upload_content">
+        <value xml:lang="ko"><![CDATA[Upload Content]]></value>
+        <value xml:lang="en"><![CDATA[Upload Content]]></value>
+    </item>
 	<item name="notice_update_configurable">
 		<value xml:lang="ko"><![CDATA[When updating a configurable product the values of associated products will not be affected. You will have to edit them sepparatly.]]></value>
 		<value xml:lang="en"><![CDATA[When updating a configurable product the values of associated products will not be affected. You will have to edit them sepparatly.]]></value>
@@ -2200,6 +2207,10 @@
 		<value xml:lang="ko"><![CDATA[Edit simple product]]></value>
 		<value xml:lang="en"><![CDATA[Edit simple product]]></value>
 	</item>
+    <item name="edit_downloadable_product">
+        <value xml:lang="ko"><![CDATA[Edit downloadable product]]></value>
+        <value xml:lang="en"><![CDATA[Edit downloadable product]]></value>
+    </item>
 	<item name="product_management">
 		<value xml:lang="ko"><![CDATA[Product Management]]></value>
 		<value xml:lang="en"><![CDATA[Product Management]]></value>
@@ -2630,4 +2641,21 @@
     <item name="year_ago">
         <value xml:lang="en">last year</value>
     </item>
+
+    <item name="no_applicable_payment_method">
+        <value xml:lang="en">No payment method available to deal with downloadable products! Please contact site administrator.</value>
+    </item>
+    <item name="content_not_provided_or_oversized">
+        <value xml:lang="en">Please provide content and/ or verify its size doesn't exceed the limit specified in php.ini configuration file.</value>
+    </item>
+    <item name="email_to_receive_download_codes">
+        <value xml:lang="en">E-mail address to receive download codes.</value>
+    </item>
+    <item name="email_to_receive_download_codes_is_empty">
+        <value xml:lang="en">Your cart has downloadable products. Please provide an e-mai address to receive your download codes!</value>
+    </item>
+    <item name="receive_download_codes_at">
+        <value xml:lang="en">Codes for downloadable products you just ordered will be sent at </value>
+    </item>
+
 </lang>

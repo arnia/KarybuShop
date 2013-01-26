@@ -33,6 +33,7 @@ class OrderProduct extends BaseItem implements IProductItem
     public $qty; // Stock quantity
     public $in_stock;
     public $primary_image_filename;
+    public $content_filename;
     public $related_products;
     public $regdate;
     public $last_update;

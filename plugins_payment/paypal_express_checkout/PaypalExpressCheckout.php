@@ -486,7 +486,8 @@ class PaypalExpressCheckoutAPI extends APIAbstract
 	 */
 	public function request($url, $data)
     {
-        $response = parent::request($url, $data);
+        $skipSSLVerify = ($this->gateway_api == PaypalExpressCheckoutAPI::SANDBOX_API_URL);
+        $response = parent::request($url, $data, $skipSSLVerify);
 
         $response_array = array();
         parse_str($response, $response_array);

@@ -25,7 +25,13 @@
                 <td class="a-center">{@ ++$i;}{$i}</td>
                 <!--@if ($product instanceof OrderProduct) -->
                 <td><p><img src="{$product->getThumbnailPath(70)}" /></p></td>
-                <td>{$product->getTitle()}</td>
+                <td>
+                    {$product->getTitle()}
+                    <!--@if ($product->content_filename) -->
+                    <!-- TODO here a link to the download page instead to the resource itself -->
+                    &nbsp;<a class="link" title="Download" target="_blank" href="{getUrl('','act','procShopDownloadProduct','product_srl',$product->product_srl)}">DOWNLOAD</a>
+                    <!--@end-->
+                </td>
                 <!--@else-->
                 <td><p><a target="_blank" href="{$product->getProduct()->getUrl()}"><img src="{$product->getThumbnailPath(70)}" /></a></p></td>
                 <td><a target="_blank" href="{$product->getProduct()->getUrl()}">{$product->getTitle()}</a></td>
@@ -61,6 +67,7 @@
         <!-- // Discount -->
 
         <!-- Coupon -->
+        <!--@if($product_container instanceof Cart)-->
         <tr cond="$coupon = $product_container->getCoupon()">
             <td colspan="4">
             </td>
@@ -70,6 +77,7 @@
             </td>
             <td cond="$coupon->discount_type == Coupon::DISCOUNT_TYPE_PERCENTAGE">{ShopDisplay::priceFormat(-1 * $product_container->getCouponDiscount(), $shop->getCurrencySymbol())} ({$coupon->discount_value} %)</td>
         </tr>
+        <!--@end-->
         <!-- // Discount -->
 
         <!-- Shipping cost -->

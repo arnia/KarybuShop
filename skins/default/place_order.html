@@ -22,6 +22,11 @@
     <h2>{$lang->payment_method}</h2>
     <p>{$payment_method->getDisplayName()}</p>
 
+    <!--@if($cart_has_downloadable)-->
+    <h2>{$lang->email_to_receive_download_codes}</h2>
+    <p>{$download_email_address}</p>
+    <!--@end-->
+
     <h2>{$lang->products}</h2>
 
     {@ $product_container = $cart; }

@@ -300,6 +300,17 @@
             <!--@end-->
         </div>
 
+        <!--@if($cart->hasDownloadableProducts())-->
+        <input name="has_downloadable" type="hidden" value="true"/>
+        <div id="email">
+            <h2 class="underline">{$lang->email_to_receive_download_codes}</h2>
+            <p>
+                <label for="download_email_address">{$lang->email}</label>
+                <input id="download_email_address" type="text" value="" name="download_email_address"/>
+            </p>
+        </div>
+        <!--@end-->
+
         <div id="review">
             <h2 class="underline">{$lang->order_review}</h2>
             {@ $product_container = $cart; }

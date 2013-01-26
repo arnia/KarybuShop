@@ -24,7 +24,10 @@ abstract class APIAbstract
 	 */
 	public function request($url, $data, $skip_ssl_verify = FALSE)
     {
-		if(is_string($data))
+        $timeout = isset($data['TIMEOUT']) ? $data['TIMEOUT'] : 0;
+        unset($data['TIMEOUT']);
+
+        if(is_string($data))
 		{
 			$post_string = $data;
 		}
@@ -39,6 +42,7 @@ abstract class APIAbstract
 
         // Request
         $request = curl_init($url);
+        curl_setopt($request, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($request, CURLOPT_HEADER, 0);
         curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);

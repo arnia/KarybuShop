@@ -7,8 +7,6 @@
 class ProductRepository extends BaseRepository
 {
 
-    const PRODUCT_CONTENT_PATH = './files/attach/contents/shop/%d/product-contents/%d/';
-
 	/**
 
     /**
@@ -464,12 +462,11 @@ class ProductRepository extends BaseRepository
         $output = $this->query('getProductByFriendlyUrl', array('friendly_url' => $str, 'module_srl' => $module_srl));
         if (empty($output->data)){
             return NULL;
-        }elseif ($output->data->product_type == "simple"){
-            return new SimpleProduct($output->data);
-        }elseif ($output->data->product_type == "downloadable"){
-            return new DownloadableProduct($output->data);
         }else{
-            return new ConfigurableProduct($output->data);
+            $product = ProductFactory::buildInstance($output->data);
+            $this->getProductCategories($product);
+            $this->getProductAttributes($product);
+            return $product;
         }
     }
 
@@ -911,6 +908,25 @@ class ProductRepository extends BaseRepository
 	}
 
     /**
+     * Update the document associated to a product.
+     * @param Product $product - should have set product_srl and document_srl
+     */
+    public function updateProductDocumentSrl(Product $product){
+        if (!isset($product->product_srl)){
+            throw new ShopException("Product srl not specified");
+        }
+        $args = new stdClass();
+        $args->product_srl = $product->product_srl;
+        $args->document_srl = $product->document_srl;
+        $output = executeQuery('shop.updateProductDocumentSrl', $args);
+        if(!$output->toBool())
+        {
+            throw new ShopException($output->getMessage(), $output->getError());
+        }
+        return TRUE;
+    }
+
+    /**
      * Update product categories
      *
      * @author Dan Dragan (dev@xpressengine.org)
@@ -1091,10 +1107,10 @@ class ProductRepository extends BaseRepository
      * @param $contentToUpload
      * @return bool|Object
      */
-    public function saveContent($product, &$contentToUpload)
+    public function saveContent(DownloadableProduct $product, &$contentToUpload)
     {
         try{
-            $path = sprintf(ProductRepository::PRODUCT_CONTENT_PATH, $product->module_srl , $product->product_srl);
+            $path = sprintf(DownloadableProduct::PRODUCT_CONTENT_DIR, $product->module_srl , $product->product_srl);
             $filename = sprintf('%s%s', $path, $contentToUpload['name']);
             FileHandler::copyFile($contentToUpload['tmp_name'], $filename);
         }
@@ -1113,10 +1129,10 @@ class ProductRepository extends BaseRepository
      * @param $contentToUpload
      * @return bool|Object
      */
-    public function updateContent($product, &$contentToUpload){
+    public function updateContent(DownloadableProduct $product, &$contentToUpload){
         try{
             if ($contentToUpload !== NULL){
-                $path = sprintf(ProductRepository::PRODUCT_CONTENT_PATH, $product->module_srl,$product->product_srl,"");
+                $path = sprintf(DownloadableProduct::PRODUCT_CONTENT_DIR, $product->module_srl,$product->product_srl,"");
                 FileHandler::removeFilesInDir($path);
                 $this->saveContent($product, $contentToUpload);
             }
@@ -1133,10 +1149,10 @@ class ProductRepository extends BaseRepository
      * @author Razvan Nutu (dev@xpressengine.org)
      * @param $product
      */
-    public function deleteContent($product)
+    public function deleteContent(DownloadableProduct $product)
     {
         try {
-            $path = sprintf(ProductRepository::PRODUCT_CONTENT_PATH, $product->module_srl, $product->product_srl, "");
+            $path = sprintf(DownloadableProduct::PRODUCT_CONTENT_DIR, $product->module_srl, $product->product_srl, "");
             FileHandler::removeDir($path);
         } catch (Exception $e) {
             return new Object(-1, $e->getMessage());

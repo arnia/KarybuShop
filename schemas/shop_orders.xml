@@ -25,4 +25,5 @@
     <column name="total" type="float" size="20" notnull="notnull" />
     <column name="currency" type="varchar" size="10"/>
     <column name="regdate" type="date" />
+    <column name="download_email_address" type="varchar" size="255"/>
 </table>

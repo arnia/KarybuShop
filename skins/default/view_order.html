@@ -29,6 +29,10 @@
         <h2>{$lang->payment_info}</h2>
         <p>{$lang->payment_method_used} <b>{ucwords(str_replace('_', ' ', $order->payment_method))}</b></p>
 
+        <!--@if($order->download_email_address)-->
+        <h2>{$lang->email_to_receive_download_codes}</h2>
+        <p>{$lang->receive_download_codes_at} {$order->download_email_address}</p>
+        <!--@end-->
 
         <h2>{$lang->shipping_info}</h2>
         <p>{$lang->shipping_method_used} <b>{ucwords(str_replace('_', ' ', $order->shipping_method))}</b>{$order->getShippingMethodVariant() ? ' - ' . $order->getShippingMethodVariant() : ''}</p>

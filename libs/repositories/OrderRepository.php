@@ -108,6 +108,7 @@ class OrderRepository extends BaseRepository
             'qty' => $product->qty,
             'in_stock' => $product->in_stock,
             'primary_image_filename' => $product->primary_image_filename,
+            'content_filename' => $product->content_filename,
             'regdate' => $product->regdate,
             'last_update' => $product->last_update
         );

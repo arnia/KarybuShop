@@ -298,7 +298,7 @@
 
             try
             {
-                $oDB = &DB::getInstance();//TODO review this: may fail for a pool of instances?
+                $oDB = &DB::getInstance();
                 $oDB->begin();
 
                 if (!$product->isPersisted())
@@ -313,7 +313,7 @@
                     elseif ($product->isDownloadable())
                     {
                         if ($args->contentToUpload === NULL){
-                            return new Object(-1, $lang->content_not_provided_or_oversized);
+                            throw new ShopException($lang->content_not_provided_or_oversized);
                         }
                         $productRepository->saveContent($product, $args->contentToUpload);
                         $this->setMessage($lang->downloadable_product_saved_successfully);
@@ -390,7 +390,7 @@
 			$productRepository->insertProduct($product);
             $productRepository->updatePrimaryImageFilename($product);
             $productRepository->saveContent($product,
-                $contentToUpload = array('tmp_name' => sprintf(ProductRepository::PRODUCT_CONTENT_PATH.'%s', $product->module_srl, $src_product_srl, $product->content_filename),
+                $contentToUpload = array('tmp_name' => sprintf(DownloadableProduct::PRODUCT_CONTENT_DIR.'%s', $product->module_srl, $src_product_srl, $product->content_filename),
                     'name' => $product->content_filename));
             $this->setMessage("A product has been successfully duplicated");
 			$returnUrl = getNotEncodedUrl('', 'act', 'dispShopToolManageProducts');
@@ -1041,7 +1041,8 @@
 					'shipping' => $shipping, // MUST send shipping, otherwise shipping_method is lost
 					'new_shipping_address' => $usesNewShippingAddress ? Context::get('new_shipping_address') : NULL,
 					'payment'  => Context::get('payment'),
-                    'discount_code' => Context::get('code')
+                    'discount_code' => Context::get('code'),
+                    'download_email_address' =>Context::get('download_email_address')
 				));
 			}
 			else {
@@ -1103,7 +1104,15 @@
          */
         public function procShopToolCheckout()
         {
-			$cart = NULL;
+            global $lang;
+            if(Context::get('has_downloadable')){
+                $email_address = Context::get('download_email_address');
+                if(!isset($email_address)){
+                    return new Object(-1, $lang->email_to_receive_download_codes_is_empty);
+                }
+            }
+
+            $cart = NULL;
 			try
 			{
 				$this->persistCart($cart);
@@ -2979,6 +2988,80 @@
             if(!$output->toBool()) return $output;
 
 			$this->setRedirectUrl($_SERVER['HTTP_REFERER']);
+        }
+
+        /*
+        * brief function for downloading a downloadable product
+        * @author Razvan Nutu (dev@xpressengine.org)
+        */
+        public function procShopDownloadProduct(){
+            $args = Context::getRequestVars();
+            $product_srl = $args->product_srl;
+            // TODO implement this appropriately
+            $shopModel = $this->model;
+            $productRepository = $shopModel->getProductRepository();
+            $product = $productRepository->getProduct($product_srl);
+            header("Content-type: application/zip");
+            header("Content-Disposition: attachment; filename=".$product->content_filename);
+            header("Pragma: no-cache");
+            header("Expires: 0");
+
+            if ($product instanceof DownloadableProduct){
+                readfile($product->getContentPath());
+            }else{
+                return new Object(-1,'Not a downloadable product');
+            }
+
+            exit;
+
+//            $categoryRepository = $shopModel->getCategoryRepository();
+//            $attributeRepository = $shopModel->getAttributeRepository();
+//
+//            $args = new stdClass();
+//            $args->module_srl = $this->module_info->module_srl;
+//
+//            $products = $productRepository->getAllProducts($args);
+//            $categories = $categoryRepository->getCategoriesTree($args->module_srl)->toFlatStructure();
+//            $attributes = $attributeRepository->getAttributesList($args->module_srl)->attributes;
+//
+//            FileHandler::makeDir('./files/attach/shop/export-import/');
+//            if(count($products)) $productRepository->addProductsToExportFolder($products);
+//            if(count($categories)) $categoryRepository->addCategoriesToExportFolder($categories);
+//            if(count($attributes)) $attributeRepository->addAttributesToExportFolder($attributes);
+//            if(!count($products) && !count($categories) && !count($attributes)){
+//                $this->setMessage("No data to export");
+//                $returnUrl = getNotEncodedUrl('', 'act', 'dispShopToolManageProducts');
+//                $this->setRedirectUrl($returnUrl);
+//                return;
+//            }
+//            $shopModel->includeZipHandler();
+//
+//            ZipHandler::zip('./files/attach/shop/export-import/','./files/attach/shop/export.zip');
+//
+//            header("Content-type: application/zip");
+//            header("Content-Disposition: attachment; filename=export.zip");
+//            header("Pragma: no-cache");
+//            header("Expires: 0");
+//
+//            readfile('./files/attach/shop/export.zip');
+//
+//            FileHandler::removeFile('./files/attach/shop/export.zip');
+//            FileHandler::removeDir('./files/attach/shop/export-import/');
+//
+//            exit;
+        }
+
+        /**
+         * This will be used to verify if the buyer is still allowed to download the product.
+         * Our intention here will be to limit the download time, the IP, and to verify for an unique token
+         * @param $args
+         */
+        private function validateDownload($args){
+            // TODO implement and call this appropriately
+            $args = Context::getRequestVars();
+            $product_srl = $args->product_srl;
+            $download_token = $args->download_token;
+
         }
 
 

@@ -274,7 +274,9 @@
 
             <p class="product-stock underline">
                 <span class="stock">{$lang->in_stock}: <span class="{$product->isInStock() ? 'green' : 'red'}" >{$product->isInStock() ? $lang->yes : $lang->no}</span></span>
+                <!--@if(!$product->isDownloadable())-->
                 <span class="quantity"><label>{$lang->quantity}:</label><input type="text" name="quantity" value="1" /></span>
+                <!--@end-->
             </p>
 
             <p class="product-price underline">
@@ -300,7 +302,9 @@
                     <b>{$lang->sku} </b>: {$product->sku}
                 </p>
                 <p>
+                    <!--@if(!$product->isDownloadable())-->
                     <b> {$lang->weight} </b>: {$product->weight} {$shop->getUnitOfMeasure()}
+                    <!--@end-->
                 </p>
             <!--<p>-->
                 <!--<b> Price </b> {ShopDisplay::priceFormat($product->price, $shop->getCurrencySymbol())}-->

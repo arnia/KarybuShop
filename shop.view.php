@@ -1109,8 +1109,7 @@ class shopView extends shop {
             $document->module_srl = $product->module_srl;
             $output = $documentController->insertDocument($document);
             $product->document_srl = $output->variables['document_srl'];
-            unset($product->images);
-            $product->repo->updateProduct($product);
+            $product->repo->updateProductDocumentSrl($product);
         }
         $documentModel = getModel('document');
         $product->document = $documentModel->getDocument($product->document_srl);
@@ -1306,7 +1305,13 @@ class shopView extends shop {
 		Context::set('selected_shipping_method', $selected_shipping_method);
 
         // payment methods
-        $payment_methods = $paymentRepo->getActivePaymentMethods($this->module_srl);
+        try{
+            $payment_methods = $paymentRepo->getApplicablePaymentMethods($this->module_srl, $cart);
+        }
+        catch (Exception $e) {
+            $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispShopHome'));
+            return new Object(-1, $e->getMessage());
+        }
         Context::set('payment_methods', $payment_methods);
 
         Context::set('addresses', $cart->getAddresses());
@@ -1382,6 +1387,9 @@ class shopView extends shop {
         if ($coupon = $cart->getCoupon()) {
             Context::set('coupon', $coupon);
         }
+
+        Context::set('download_email_address', $cart->getExtra('download_email_address'));
+        Context::set('cart_has_downloadable', $cart->hasDownloadableProducts());
 
         $this->setTemplateFile('place_order.html');
     }

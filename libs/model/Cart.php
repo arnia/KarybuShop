@@ -496,6 +496,7 @@ class Cart extends BaseItem implements IProductItemsContainer
 		$data['extra']['shipping_method'] = $shipping['method'];
 		$data['extra']['shipping_variant'] = $shipping['variant'];
 		$data['shipping_address_srl'] = $shipping['address'];
+        $data['extra']['download_email_address'] = $input['download_email_address'];
 		// Shipping method
 
 		// Shipping address validation - if different

@@ -47,29 +47,47 @@ class ShippingMethodRepository extends AbstractPluginRepository
 			$active_shipping_methods = $this->getActiveShippingMethods($module_srl);
 
 			$available_shipping_methods = array();
-			foreach($active_shipping_methods as $shipping_method)
-			{
-				$available_variants = $shipping_method->getAvailableVariants($cart);
-				foreach($available_variants as $variant)
-				{
-					if(!$variant->price)
-					{
-						$key = "";
-						$value = $variant->display_name . ' - ' . $variant->variant_display_name;
-					}
-					else
-					{
-						$key = $variant->name;
-						if($variant->variant) $key .= '__' . $variant->variant;
+            // if cart has downloadable products only, set FLAT_RATE=0
+            if ($cart->allProductsAreDownloadable()){
+                foreach($active_shipping_methods as $shipping_method){
+                    if ($shipping_method instanceof FlatRateShipping){
+                        $available_variants = $shipping_method->getAvailableVariants($cart);
+                        $available_variant = $available_variants[0];
+                        $key = $available_variant->name;
+                        if($available_variant->variant) $key .= '__' . $available_variant->variant;
 
-						$value = $variant->display_name;
-						if($variant->variant) $value .= ' - ' . $variant->variant_display_name;
-						$value .= ' - ' . ShopDisplay::priceFormat($variant->price, $shop_info->getCurrencySymbol());
-					}
+                        $value = $available_variant->display_name;
+                        if($available_variant->variant) $value .= ' - ' . $available_variant->variant_display_name;
+                        $value .= ' - ' . ShopDisplay::priceFormat(0, $shop_info->getCurrencySymbol());
+                        $available_shipping_methods[$key]=$value;
+                        break;
+                    }
+                }
+            }else{
+                foreach($active_shipping_methods as $shipping_method)
+                {
+                    $available_variants = $shipping_method->getAvailableVariants($cart);
+                    foreach($available_variants as $variant)
+                    {
+                        if(!$variant->price)
+                        {
+                            $key = "";
+                            $value = $variant->display_name . ' - ' . $variant->variant_display_name;
+                        }
+                        else
+                        {
+                            $key = $variant->name;
+                            if($variant->variant) $key .= '__' . $variant->variant;
 
-					$available_shipping_methods[$key] = $value;
-				}
-			}
+                            $value = $variant->display_name;
+                            if($variant->variant) $value .= ' - ' . $variant->variant_display_name;
+                            $value .= ' - ' . ShopDisplay::priceFormat($variant->price, $shop_info->getCurrencySymbol());
+                        }
+
+                        $available_shipping_methods[$key] = $value;
+                    }
+                }
+            }
 			self::$cache->set($cache_key, $available_shipping_methods);
 		}
 		return $available_shipping_methods;
