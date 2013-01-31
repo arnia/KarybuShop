@@ -29,7 +29,7 @@
                     {$product->getTitle()}
                     <!--@if ($product->content_filename) -->
                     <!-- TODO here a link to the download page instead to the resource itself -->
-                    &nbsp;<a class="link" title="Download" target="_blank" href="{getUrl('','act','procShopDownloadProduct','product_srl',$product->product_srl)}">DOWNLOAD</a>
+                    &nbsp;<a class="link" title="Download" target="_blank" href="{getUrl('','act','dispShopDownloadProduct')}">DOWNLOAD</a>
                     <!--@end-->
                 </td>
                 <!--@else-->

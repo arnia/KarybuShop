@@ -2655,7 +2655,89 @@
         <value xml:lang="en">Your cart has downloadable products. Please provide an e-mai address to receive your download codes!</value>
     </item>
     <item name="receive_download_codes_at">
-        <value xml:lang="en">Codes for downloadable products you just ordered will be sent at </value>
+        <value xml:lang="en">Codes for downloadable products you just ordered were sent at </value>
+    </item>
+
+    <item name="download_email_subject">
+        <value xml:lang="en"><![CDATA[Download codes for your order# %s from %s]]></value>
+    </item>
+    <item name="download_email_content">
+        <value xml:lang="en"><![CDATA[
+    <p>Hello %s,</p>
+
+    <p>Thank you for your purchase! Here are your codes for downloadable products related to your order# %s:</p>
+    <p>%s</p>
+    <p><b>How do I download the products?</b></p>
+    <p>
+        Go to <a href="%s">download products</a> page and fill in your code.
+    </p>
+    Respectfully yours,<br>
+    %s
+]]></value>
+    </item>
+    <item name="download_email_product_line">
+        <value xml:lang="en"><![CDATA[
+    <p>- &quot;%s&quot;:&nbsp;<b>%s</b></p>
+]]></value>
+    </item>
+
+    <item name="download_page_section1">
+        <value xml:lang="en"><![CDATA[
+    Here you can get your downloadable products, achieved from our store.<br>
+Before that, we need the order number and security token for each product (sent by e-mail).
+]]></value>
+    </item>
+
+    <item name="download_page_section2">
+        <value xml:lang="en"><![CDATA[
+    Please note that the download will be available only once, so be prepared to receive your file
+(do not press Cancel, keep your connection alive). <br>
+However, if you encounter any problems with your download, please contact the site administrator at <a href="mailto:%s">%s</a>
+]]></value>
+    </item>
+
+    <item name="download_form_title">
+        <value xml:lang="en"><![CDATA[Download product]]></value>
+    </item>
+
+    <item name="label_order_no">
+        <value xml:lang="en"><![CDATA[Order number:]]></value>
+    </item>
+
+    <item name="label_token">
+        <value xml:lang="en"><![CDATA[Token:]]></value>
+    </item>
+
+    <item name="download_button">
+        <value xml:lang="en"><![CDATA[Download]]></value>
+    </item>
+
+    <item name="invalid_order">
+        <value xml:lang="en"><![CDATA[Invalid order!]]></value>
+    </item>
+
+    <item name="invalid_token">
+        <value xml:lang="en"><![CDATA[Invalid token!]]></value>
+    </item>
+
+    <item name="token_already_used">
+        <value xml:lang="en"><![CDATA[Token already used. Please contact site administrator if you think this is a mistake.]]></value>
+    </item>
+
+    <item name="not_a_downloadable_product">
+        <value xml:lang="en"><![CDATA[Not a downloadable product.]]></value>
+    </item>
+
+    <item name="sending_downloadable_codes_failed">
+        <value xml:lang="en"><![CDATA[Sending downloadable codes failed.]]></value>
+    </item>
+
+    <item name="sending_downloadable_codes_succes">
+        <value xml:lang="en"><![CDATA[Downloadable codes successfully sent.]]></value>
+    </item>
+
+    <item name="resend_codes_button">
+        <value xml:lang="en"><![CDATA[Resend codes]]></value>
     </item>
 
 </lang>

@@ -260,6 +260,11 @@
 
             </div>
 
+            <!--@if($cart->allProductsAreDownloadable())-->
+            <input type="hidden" name="shipping_method" value="{$selected_shipping_method}"/>
+            <input type="hidden" name="shipping[method]" id="shipping_method_name" value="{$cart->getShippingMethodName()}" />
+            <input type="hidden" name="shipping[variant]" id="shipping_method_variant" value="{$cart->getShippingMethodVariant()}" />
+            <!--@else-->
             <p>
                 <label for="shipping_method">{$lang->shipping_method}</label>
                 <select id="shipping_method">
@@ -288,6 +293,7 @@
                     });
                 </script>
             </p>
+            <!--@end-->
         </div>
 
         <div id="payment">

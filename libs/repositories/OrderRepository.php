@@ -115,6 +115,78 @@ class OrderRepository extends BaseRepository
         return $this->query('insertOrderProduct', $params);
     }
 
+    /**
+     * Attach specific info to a downloadable item inside an Order
+     * @param DownloadInfo $downloadInfo
+     * @return object
+     */
+    public function insertDownloadInfo(DownloadInfo $downloadInfo){
+        $dummyOrder = new stdClass();
+        $dummyOrder->order_srl = $downloadInfo->getOrderSrl();
+        $orderProducts = $this->getOrderProductItems($dummyOrder);
+        $found = false;
+        foreach($orderProducts as $orderProduct){
+            if ($orderProduct->product_srl == $downloadInfo->getProductSrl()){
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            throw new ShopException("Tried to attach download info to a nonexistent order product");
+        }
+
+        $params = array(
+            "order_srl" => $downloadInfo->getOrderSrl(),
+            "product_srl" => $downloadInfo->getProductSrl(),
+            "token" => $downloadInfo->getToken(),
+            "ip" => $downloadInfo->getIp(),
+            "validity_date" =>$downloadInfo->getValidityDate(),
+            "counter" => $downloadInfo->getCounter()
+        );
+        return $this->query("insertDownloadInfo", $params);
+    }
+
+    public function updateDownloadInfo(DownloadInfo $downloadInfo){
+        $params = array(
+            "order_srl" => $downloadInfo->getOrderSrl(),
+            "product_srl" => $downloadInfo->getProductSrl(),
+            "ip" => $downloadInfo->getIp(),
+            "validity_date" =>$downloadInfo->getValidityDate(),
+            "counter" => $downloadInfo->getCounter()
+        );
+        return $this->query("updateDownloadInfo", $params);
+    }
+
+    public function resetDownloadInfo(DownloadInfo $downloadInfo){
+        $downloadInfo->reset();
+        $this->updateDownloadInfo($downloadInfo);
+    }
+
+    public function getDownloadInfo($order_srl, $product_srl){
+        $output = $this->query('getDownloadInfo',
+            array('order_srl' =>$order_srl, 'product_srl' => $product_srl));
+        if (empty($output->data)){
+            return null;
+        }else{
+            return DownloadInfo::fromArray((array) $output->data);
+        }
+    }
+
+    /**
+     * Retrieve download info, being given an order_srl and the token
+     * @param $order_srl
+     * @param $token
+     */
+    public function getDownloadInfoByOrderAndToken($order_srl, $token){
+        $output = $this->query('getDownloadInfoByOrderAndToken',
+            array('order_srl' =>$order_srl, 'token' => strtoupper($token)));
+        if (empty($output->data)){
+            return null;
+        }else{
+            return DownloadInfo::fromArray((array) $output->data);
+        }
+    }
+
     public function deleteOrderProducts($order_srl, array $product_srls=null)
     {
         return $this->query('deleteOrderProducts', array('order_srl' => $order_srl, 'product_srls' => $product_srls));
@@ -132,7 +204,6 @@ class OrderRepository extends BaseRepository
             return $order;
         }
     }
-
 
     public function getOrderByTransactionId($transaction_id)
     {

@@ -1,0 +1,13 @@
+<query id="insertDownloadInfo" action="insert">
+    <tables>
+        <table name="shop_download_info" />
+    </tables>
+    <columns>
+        <column name="order_srl" var="order_srl" filter="number" notnull="notnull"/>
+        <column name="product_srl" var="product_srl" filter="number" notnull="notnull"/>
+        <column name="token" var="token" notnull="notnull" />
+        <column name="ip" var="ip" />
+        <column name="validity_date" var="validity_date" filter="date" />
+        <column name="counter" var="counter"  filter="number" default="0"/>
+    </columns>
+</query>

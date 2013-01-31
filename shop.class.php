@@ -124,6 +124,13 @@ class shop extends ModuleObject {
 
 		if(!$oDB->isColumnExists("shop_products","document_srl")) return true;
 
+        if(!$oDB->isColumnExists("shop_download_info","order_srl")) return true;
+        if(!$oDB->isColumnExists("shop_download_info","product_srl")) return true;
+        if(!$oDB->isColumnExists("shop_download_info","token")) return true;
+        if(!$oDB->isColumnExists("shop_download_info","ip")) return true;
+        if(!$oDB->isColumnExists("shop_download_info","validity_date")) return true;
+        if(!$oDB->isColumnExists("shop_download_info","counter")) return true;
+
         return false;
     }
 
@@ -166,9 +173,10 @@ class shop extends ModuleObject {
         }
 
 
-            if(!$oDB->isColumnExists("shop_products","content_filename")) {
-                $oDB->addColumn('shop_products',"content_filename","varchar",250);
-            }
+        if(!$oDB->isColumnExists("shop_products","content_filename")) {
+            $oDB->addColumn('shop_products',"content_filename","varchar",250);
+        }
+
         if(!$oDB->isColumnExists("shop","discount_min_amount")) {
             $oDB->addColumn('shop',"discount_min_amount","float",20);
         }
@@ -354,6 +362,14 @@ class shop extends ModuleObject {
         if(!$oDB->isColumnExists("shop_products","document_srl")) {
             $oDB->addColumn('shop_products',"document_srl","number", 11);
         }
+
+        if(!$oDB->isColumnExists("shop_download_info","order_srl")) $oDB->addColumn('shop_download_info',"order_srl","number", 11);
+        if(!$oDB->isColumnExists("shop_download_info","product_srl")) $oDB->addColumn('shop_download_info',"product_srl","number", 11);
+        if(!$oDB->isColumnExists("shop_download_info","token")) $oDB->addColumn('shop_download_info',"token","varchar", 13);
+        if(!$oDB->isColumnExists("shop_download_info","ip")) $oDB->addColumn('shop_download_info',"ip","varchar", 15);
+        if(!$oDB->isColumnExists("shop_download_info","validity_date")) $oDB->addColumn('shop_download_info',"validity_date","date");
+        if(!$oDB->isColumnExists("shop_download_info","counter")) $oDB->addColumn('shop_download_info',"counter","number", 2);
+
 
         return new Object(0, 'success_updated');
     }

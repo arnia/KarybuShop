@@ -83,4 +83,15 @@ class OrderProduct extends BaseItem implements IProductItem
         $thumbnail = new ShopThumbnail($this->order_srl, $this->primary_image_filename);
         return $thumbnail->getThumbnailPath($width, $height, $thumbnail_type);
     }
+
+    /**
+     * Checks if product is downloadable
+     *
+     * @return boolean
+     */
+    public function isDownloadable()
+    {
+        return isset($this->content_filename);
+    }
+
 }

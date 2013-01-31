@@ -202,6 +202,7 @@
         <action name="dispShopToolAddAssociatedProducts" type="view" />
         <action name="dispShopToolEditProduct" type="view" />
         <action name="dispShopToolImportProducts" type="view"/>
+        <action name="dispShopDownloadProduct" type="view" />
         <action name="procShopToolInsertProduct" type="controller" ruleset="insert_product" />
         <action name="procShopToolInsertDuplicate" type="controller" />
         <action name="procShopToolImportProducts" type="controller" ruleset="import_products"/>
@@ -209,6 +210,8 @@
         <action name="procShopToolDeleteProducts" type="controller" />
         <action name="procShopToolInsertAssociatedProducts" type="controller" />
         <action name="procShopToolExportProducts" type="controller" />
+        <action name="procShopDownloadProduct" type="controller" standalone="true" />
+        <action name="procShopResendDownloadCodes" type="controller" standalone="true" />
 
         <!-- Product categories -->
         <action name="dispShopToolManageCategories" type="view"/>
@@ -217,7 +220,6 @@
         <action name="procShopServiceMoveCategory" type="controller" standalone="true" />
         <action name="procShopServiceDeleteCategory" type="controller" standalone="true" />
         <action name="procShopServiceGetCategory" type="controller" standalone="true" />
-        <action name="procShopDownloadProduct" type="controller" standalone="true" />
 
         <!-- Product attributes -->
         <action name="dispShopToolManageAttributes" type="view"/>

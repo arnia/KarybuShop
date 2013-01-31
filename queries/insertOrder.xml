@@ -28,6 +28,6 @@
         <column name="discount_reduction_value" var="discount_reduction_value" />
         <column name="currency" var="currency" />
         <column name="regdate" var="regdate" default="curdate()"/>
-        <column name="download_email_address" var="default_email_address" default="null"/>
+        <column name="download_email_address" var="download_email_address" default="null"/>
     </columns>
 </query>

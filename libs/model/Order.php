@@ -127,6 +127,11 @@ class Order extends BaseItem implements IProductItemsContainer
         foreach ($cart_products as $cart_product) {
             if ($cart_product->available && $cart_product->product_srl) {
                 $this->repo->insertOrderProduct($this->order_srl, $cart_product);
+                if($cart_product->getProduct()->isDownloadable()){
+                    // additional information for downloadable products
+                    $downloadInfo = new DownloadInfo($this->order_srl, $cart_product->getProduct()->product_srl);
+                    $this->repo->insertDownloadInfo($downloadInfo);
+                }
             }
         }
     }
@@ -253,6 +258,42 @@ class Order extends BaseItem implements IProductItemsContainer
 
 	}
 
+    public static function sendDownloadCodesToCustomer($order_srl){
+        $repo = new OrderRepository();
+        $order = $repo->getOrderBySrl($order_srl);
+        $shop = new ShopInfo($order->module_srl);
+
+        // do not send anything if customer's email for receiving codes is not set
+        if (!isset($order->download_email_address)){
+            ShopLogger::log("Failed to send download codes email for order #$order->order_srl; customer's email is not set.");
+            return false;
+        }
+        if ($shop->getShopEmail() == null){
+            ShopLogger::log("Failed to send download codes email for order #$order->order_srl; shop email is not set.");
+            return false;
+        }
+
+        global $lang;
+
+        $shopTitle = $shop->getShopTitle() != null ? $shop->getShopTitle() :  $shop->getBrowserTitle();
+        $products_and_codes = self::getProductsAndCodesHTML($order);
+        $downloadPageUrl = getFullUrl('','act','dispShopDownloadProduct','vid',$shop->getMid());// TODO get download page url
+        $signature = $shop->getBrowserTitle();
+        $shopEmail = $shop->getShopEmail();
+
+        $email_subject = sprintf($lang->download_email_subject,
+                            $order->order_srl, $shopTitle);
+        $email_content = sprintf($lang->download_email_content,
+                            $order->client_name, $order->order_srl, $products_and_codes,
+                            $downloadPageUrl, $signature);
+        $oMail = new Mail();
+        $oMail->setTitle($email_subject);
+        $oMail->setContent($email_content);
+        $oMail->setSender($shopTitle, $shopEmail);
+        $oMail->setReceiptor(false, $order->download_email_address);
+        return $oMail->send();
+    }
+
 	private static function sendNewOrderMailToAdministrator($shop, $order)
 	{
 		// Don't send anything if admin email is not configured
@@ -307,4 +348,22 @@ class Order extends BaseItem implements IProductItemsContainer
 		self::sendNewOrderMailToCustomer($shop, $order);
 		self::sendNewOrderMailToAdministrator($shop, $order);
 	}
+
+    private static function getProductsAndCodesHTML(Order $order){
+        global $lang;
+        $result = '';
+        foreach($order->getProducts() as $orderProduct){
+            /**
+             * @var $orderProduct OrderProduct
+             */
+            if ($orderProduct->isDownloadable()){
+                $productName = $orderProduct->getTitle();
+                $token = $order->repo->getDownloadInfo
+                                ($order->order_srl, $orderProduct->product_srl)->getToken();
+                $result.=sprintf($lang->download_email_product_line, $productName, $token);
+                $result.="\n";
+            }
+        }
+        return $result;
+    }
 }

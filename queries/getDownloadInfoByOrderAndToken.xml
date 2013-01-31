@@ -1,0 +1,12 @@
+<query id="getDownloadInfoByOrderAndToken" action="select">
+    <tables>
+        <table name="shop_download_info" alias="di"/>
+    </tables>
+    <columns>
+        <column name="di.*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="di.order_srl" var="order_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="di.token" var="token" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

@@ -2,6 +2,10 @@
 <include target="_my_account_sidebar.html" />
 
 <div id="my_account" class="body-two-columns main-content clearfix">
+    <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}" id="error_message">
+        <p>{$XE_VALIDATOR_MESSAGE}</p>
+    </div>
+
     <div id="MyAccountInfo">
         <h1 class="underline">{sprintf($lang->order_with_number, $order->order_srl)}</h1>
         <a class="button" title="This will fill your cart with the products existing on this order so you can buy them again" href="{getUrl('','act','procShopRenewOrder','order_srl',$order->order_srl)}">{$lang->renew}</a>
@@ -31,7 +35,8 @@
 
         <!--@if($order->download_email_address)-->
         <h2>{$lang->email_to_receive_download_codes}</h2>
-        <p>{$lang->receive_download_codes_at} {$order->download_email_address}</p>
+        <p>{$lang->receive_download_codes_at} <a href="mailto:{$order->download_email_address}">{$order->download_email_address}</a> </p>
+        <p><a class="button" title="Resend codes" target="_self" href="{getUrl('','act','procShopResendDownloadCodes','order_srl',$order->order_srl)}">{$lang->resend_codes_button}</a></p>
         <!--@end-->
 
         <h2>{$lang->shipping_info}</h2>

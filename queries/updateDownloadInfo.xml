@@ -1,0 +1,14 @@
+<query id="updateDownloadInfo" action="update">
+    <tables>
+        <table name="shop_download_info" />
+    </tables>
+    <columns>
+        <column name="ip" var="ip" />
+        <column name="validity_date" var="validity_date" filter="date" />
+        <column name="counter" var="counter"  filter="number" default="0"/>
+    </columns>
+    <conditions>
+        <condition operation="equal" column="order_srl" var="order_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="product_srl" var="product_srl" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

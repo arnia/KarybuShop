@@ -1,0 +1,48 @@
+<include target="_header.html"/>
+
+<script type="text/javascript">
+    jQuery(function () {
+        var $ = jQuery;
+        $('#download_form').submit(function(){
+            //alert("Submitted!");
+            var error = $('#error_message');
+            error.hide();
+        });
+    });
+</script>
+
+<div id="confirm_order" class="main-content form">
+    <h1>Download product</h1>
+
+    <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}" id="error_message">
+        <p>{$XE_VALIDATOR_MESSAGE}</p>
+    </div>
+
+    {$lang->download_page_section1}
+
+    <p style="color:red">{sprintf($lang->download_page_section2, $email, $email)}</p>
+    <div id="download">
+        <h2 class="underline">{$lang->download_form_title}</h2>
+
+        <form action="./" method="post" id="download_form">
+
+                <ul>
+                    <p>
+                        <label for="order_srl">{$lang->label_order_no}</label>
+                        <input id="order_srl" type="text" name="order_srl" maxlength="10"style="width: 100px;" />
+                    </p>
+                    <p>
+                        <label for="token">{$lang->label_token}</label>
+                        <input id="token" type="text" name="token" maxlength="13" style="width: 100px;"/>
+                    </p>
+                    <p>
+                        <input type="submit" id="download_button" value="{ucfirst($lang->download_button)}" style="margin-left: 232px">
+                    </p>
+                </ul>
+
+            <input type="hidden" name="act" value="procShopDownloadProduct" />
+        </form>
+    </div>
+</div>
+
+<include target="_footer.html"/>

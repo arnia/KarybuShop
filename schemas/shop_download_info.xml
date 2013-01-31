@@ -1,0 +1,8 @@
+<table name="shop_download_info">
+    <column name="order_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="product_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="token" type="varchar" size="13" notnull="notnull" />
+    <column name="ip" type="varchar" size="15" />
+    <column name="validity_date" type="date" />
+    <column name="counter" type="number" size="2" notnull="notnull" default="0" />
+</table>

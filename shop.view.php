@@ -2060,5 +2060,11 @@ class shopView extends shop {
         $this->add('parent_srl', $parent_srl);
     }
 
+    public function dispShopDownloadProduct(){
+        $shop = new ShopInfo($this->module_srl);
+        $email = $shop->getShopEmail();
+        Context::set("email", $email);
 
+        $this->setTemplateFile("download_product");
+    }
 }

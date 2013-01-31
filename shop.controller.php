@@ -889,6 +889,7 @@
             Order date: '.zdate($order->regdate,'d-M-y').'
             <p></p><h3>'.$lang->shipping_address.'</h3>'.$order->shipping_address.'
             <p></p><h3>'.$lang->billing_address.'</h3>'.$order->billing_address.'
+            <p></p><h3>'.$lang->email_to_receive_download_codes.'</h3>'.$order->download_email_address.'
             <p></p><h3>'.$lang->payment_method_used.'</h3>'.ucwords(str_replace('_', ' ', $order->payment_method)).'
             <p></p><h3>'.$lang->shipping_method_used.'</h3>'.ucwords(str_replace('_', ' ', $order->shipping_method)).'
             <p></p><h3>'.$lang->items_ordered.'</h3></br>';
@@ -1327,17 +1328,24 @@
                 return new Object(-1, $error_message);
             }
 
+            $oDB = &DB::getInstance();
 			try
 			{
-				$order = new Order($cart);
+                $oDB->begin();
+                $order = new Order($cart);
 				$order->save(); //obtain srl
 				$order->saveCartProducts($cart);
                 Order::sendNewOrderEmails($order->order_srl);
+                if ($cart->hasDownloadableProducts()){
+                    Order::sendDownloadCodesToCustomer($order);
+                 }
 				$cart->delete();
+                $oDB->commit();
 			}
 			catch(Exception $e)
 			{
-				return new Object(-1, $e->getMessage());
+				$oDB->rollback();
+                return new Object(-1, $e->getMessage());
 			}
 
             $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispShopOrderConfirmation', 'order_srl', $order->order_srl));
@@ -2990,15 +2998,43 @@
 			$this->setRedirectUrl($_SERVER['HTTP_REFERER']);
         }
 
-        /*
-        * brief function for downloading a downloadable product
+        /**
+        * @brief function for downloading a downloadable product
         * @author Razvan Nutu (dev@xpressengine.org)
         */
         public function procShopDownloadProduct(){
+            /**
+             * @var $orderRepo OrderRepository
+             * @var $orderProduct OrderProduct
+             */
+            global $lang;
             $args = Context::getRequestVars();
-            $product_srl = $args->product_srl;
-            // TODO implement this appropriately
+            $order_srl = $args->order_srl;
+            $received_token = $args->token;
+
+            if (!isset($order_srl)){
+                return new Object(-1,$lang->invalid_order);
+            }
+            if (!isset($received_token)){
+                return new Object(-1,$lang->invalid_token);
+            }
+
             $shopModel = $this->model;
+            $orderRepo = $shopModel->getOrderRepository();
+            $order = $orderRepo->getOrderBySrl($order_srl);
+
+            if (!isset($order)){
+                return new Object(-1,$lang->invalid_order);
+            }
+            $downloadInfo = $orderRepo->getDownloadInfoByOrderAndToken($order_srl, $received_token);
+            if(!isset($downloadInfo)){
+                return new Object(-1, $lang->invalid_token);
+            }
+            if($downloadInfo->getCounter() > 0){
+                return new Object(-1, $lang->token_already_used);
+            }
+
+            $product_srl = $downloadInfo->getProductSrl();
             $productRepository = $shopModel->getProductRepository();
             $product = $productRepository->getProduct($product_srl);
             header("Content-type: application/zip");
@@ -3009,61 +3045,31 @@
             if ($product instanceof DownloadableProduct){
                 readfile($product->getContentPath());
             }else{
-                return new Object(-1,'Not a downloadable product');
+                return new Object(-1, $lang->not_a_downloadable_product);
             }
 
+            $downloadInfo->setCounter($downloadInfo->getCounter()+1);
+            $orderRepo->updateDownloadInfo($downloadInfo);
+
             exit;
-
-//            $categoryRepository = $shopModel->getCategoryRepository();
-//            $attributeRepository = $shopModel->getAttributeRepository();
-//
-//            $args = new stdClass();
-//            $args->module_srl = $this->module_info->module_srl;
-//
-//            $products = $productRepository->getAllProducts($args);
-//            $categories = $categoryRepository->getCategoriesTree($args->module_srl)->toFlatStructure();
-//            $attributes = $attributeRepository->getAttributesList($args->module_srl)->attributes;
-//
-//            FileHandler::makeDir('./files/attach/shop/export-import/');
-//            if(count($products)) $productRepository->addProductsToExportFolder($products);
-//            if(count($categories)) $categoryRepository->addCategoriesToExportFolder($categories);
-//            if(count($attributes)) $attributeRepository->addAttributesToExportFolder($attributes);
-//            if(!count($products) && !count($categories) && !count($attributes)){
-//                $this->setMessage("No data to export");
-//                $returnUrl = getNotEncodedUrl('', 'act', 'dispShopToolManageProducts');
-//                $this->setRedirectUrl($returnUrl);
-//                return;
-//            }
-//            $shopModel->includeZipHandler();
-//
-//            ZipHandler::zip('./files/attach/shop/export-import/','./files/attach/shop/export.zip');
-//
-//            header("Content-type: application/zip");
-//            header("Content-Disposition: attachment; filename=export.zip");
-//            header("Pragma: no-cache");
-//            header("Expires: 0");
-//
-//            readfile('./files/attach/shop/export.zip');
-//
-//            FileHandler::removeFile('./files/attach/shop/export.zip');
-//            FileHandler::removeDir('./files/attach/shop/export-import/');
-//
-//            exit;
         }
 
-        /**
-         * This will be used to verify if the buyer is still allowed to download the product.
-         * Our intention here will be to limit the download time, the IP, and to verify for an unique token
-         * @param $args
-         */
-        private function validateDownload($args){
-            // TODO implement and call this appropriately
-            $args = Context::getRequestVars();
-            $product_srl = $args->product_srl;
-            $download_token = $args->download_token;
+        public function procShopResendDownloadCodes(){
+            global $lang;
 
+            $order_srl = Context::get('order_srl');
+            if (!isset($order_srl)){
+                return new Object(-1,$lang->invalid_order);
+            }
+            $sent = Order::sendDownloadCodesToCustomer($order_srl);
+            if (!sent){
+                $this->setMessage($lang->sending_downloadable_codes_failed, 'error');
+            }else{
+                $this->setMessage($lang->sending_downloadable_codes_succes, 'info');
+            }
+
+            $this->setRedirectUrl($_SERVER['HTTP_REFERER']);
         }
-
 
     }
 ?>
