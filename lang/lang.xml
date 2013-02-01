@@ -2715,6 +2715,9 @@ However, if you encounter any problems with your download, please contact the si
     <item name="invalid_order">
         <value xml:lang="en"><![CDATA[Invalid order!]]></value>
     </item>
+    <item name="invalid_product">
+        <value xml:lang="en"><![CDATA[Invalid product!]]></value>
+    </item>
 
     <item name="invalid_token">
         <value xml:lang="en"><![CDATA[Invalid token!]]></value>
@@ -2732,8 +2735,20 @@ However, if you encounter any problems with your download, please contact the si
         <value xml:lang="en"><![CDATA[Sending downloadable codes failed.]]></value>
     </item>
 
-    <item name="sending_downloadable_codes_succes">
+    <item name="sending_downloadable_codes_success">
         <value xml:lang="en"><![CDATA[Downloadable codes successfully sent.]]></value>
+    </item>
+
+    <item name="download_reactivation_success">
+        <value xml:lang="en"><![CDATA[Download reactivated successfully.]]></value>
+    </item>
+
+    <item name="download_reactivation_failed">
+        <value xml:lang="en"><![CDATA[Download reactivation failed.]]></value>
+    </item>
+
+    <item name="download_in_progress_cannot_delete_product">
+        <value xml:lang="en"><![CDATA[This downloadable product cannot be deleted, since it was bought but not downloaded yet.]]></value>
     </item>
 
     <item name="resend_codes_button">

@@ -249,8 +249,22 @@ class ProductRepository extends BaseRepository
         }
         $product = $this->getProduct($args->product_srl);
 
+        if ($product->isDownloadable()){
+            global $lang;
+            $orderRepo = new OrderRepository();
+            $dInfoArray = $orderRepo->getDownloadInfoByProduct($args->product_srl);
+            foreach($dInfoArray as $downloadInfo){
+                /** @var $downloadInfo DownloadInfo */
+                if (!$downloadInfo->downloaded()){
+                    // product was bought by somebody, but not yet downloaded.
+                    // Consequently it cannot be deleted yet
+                    return new Object(-1, $lang->download_in_progress_cannot_delete_product);
+                }
+            }
+        }
+
         try {
-            $oDB = &DB::getInstance(); //TODO review this: may fail for a pool of instances?
+            $oDB = &DB::getInstance();
             $oDB->begin();
 
             $output = $this->query('deleteProduct', $args);

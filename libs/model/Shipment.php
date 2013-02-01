@@ -41,6 +41,10 @@ class Shipment extends BaseItem
         foreach($products as $orderProduct){
             /** @var $product Product */
             $product = $productRepo->getProduct($orderProduct->product_srl, false);
+            if($product->isDownloadable()){
+                // nothing to subtract here
+                continue;
+            }
             if($orderProduct->quantity == $product->qty){
                 $productsEmptyStocks[] = $product;
             }

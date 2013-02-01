@@ -157,9 +157,13 @@ class OrderRepository extends BaseRepository
         return $this->query("updateDownloadInfo", $params);
     }
 
-    public function resetDownloadInfo(DownloadInfo $downloadInfo){
+    public function resetDownloadInfo($order_srl, $product_srl){
+        $downloadInfo = $this->getDownloadInfo($order_srl, $product_srl);
+        if (!isset($downloadInfo)){
+            return false;
+        }
         $downloadInfo->reset();
-        $this->updateDownloadInfo($downloadInfo);
+        return $this->updateDownloadInfo($downloadInfo);
     }
 
     public function getDownloadInfo($order_srl, $product_srl){
@@ -184,6 +188,23 @@ class OrderRepository extends BaseRepository
             return null;
         }else{
             return DownloadInfo::fromArray((array) $output->data);
+        }
+    }
+
+    public function getDownloadInfoByProduct($product_srl){
+        $output = $this->query('getDownloadInfoByProduct',
+            array('product_srl' =>$product_srl));
+        if(!is_array($output->data)){
+            $output->data=array($output->data);
+        }
+        if (empty($output->data)){
+            return null;
+        }else{
+            $result = array();
+            foreach($output->data as $dataItem){
+                $result[] = DownloadInfo::fromArray((array) $dataItem);
+            }
+            return $result;
         }
     }
 

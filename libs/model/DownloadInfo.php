@@ -10,6 +10,8 @@
  */
 class DownloadInfo extends BaseItem
 {
+    const DOWNLOAD_LIMIT = 1;
+
     private $order_srl;
     private $product_srl;
 
@@ -97,6 +99,10 @@ class DownloadInfo extends BaseItem
      */
     public function getValidityDate(){
         return $this->validity_date;
+    }
+
+    public function downloaded(){
+        return $this->counter >= self::DOWNLOAD_LIMIT ? true :false;
     }
 
     public function reset(){

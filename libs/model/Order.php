@@ -277,7 +277,7 @@ class Order extends BaseItem implements IProductItemsContainer
 
         $shopTitle = $shop->getShopTitle() != null ? $shop->getShopTitle() :  $shop->getBrowserTitle();
         $products_and_codes = self::getProductsAndCodesHTML($order);
-        $downloadPageUrl = getFullUrl('','act','dispShopDownloadProduct','vid',$shop->getMid());// TODO get download page url
+        $downloadPageUrl = getFullUrl('','act','dispShopDownloadProduct','vid',$shop->getMid());
         $signature = $shop->getBrowserTitle();
         $shopEmail = $shop->getShopEmail();
 
@@ -366,4 +366,14 @@ class Order extends BaseItem implements IProductItemsContainer
         }
         return $result;
     }
+
+    public function allProductsAreDownloadable(){
+        /** @var $orderProduct OrderProduct */
+        foreach ($this->getProducts() as $orderProduct){
+            if (!$orderProduct->isDownloadable())
+                return false;
+        }
+        return true;
+    }
+
 }

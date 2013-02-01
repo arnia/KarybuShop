@@ -15,7 +15,13 @@
 
     <!--@foreach($ordered_items as $no => $item)-->
     <tr>
-        <td class="title">{$item->getTitle()}</td>
+        <td class="title">
+            {$item->getTitle()}
+            {@ $reactivate = $item->isDownloadable() && $order->repo->getDownloadInfo($order->order_srl, $item->product_srl)->downloaded();}
+            <!--@if ($reactivate) -->
+            &nbsp;<a class="link" title="Reactivate download" target="_self" href="{getUrl('','act','procShopToolReactivateDownload', 'order_srl', $order->order_srl, 'product_srl', $item->product_srl)}">Re-Activate download</a>
+            <!--@end-->
+        </td>
         <td class="small">{ShopDisplay::priceFormat($item->getPrice(), $shop->getCurrencySymbol())}</td>
         <td class="small">{$item->getQuantity()}</td>
         <td class="small">{ShopDisplay::priceFormat($item->getPrice() * $item->getQuantity(), $shop->getCurrencySymbol())}</td>

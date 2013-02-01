@@ -1231,8 +1231,11 @@
             if(!isset($invoice->invoice_srl)) $insert=TRUE;
             $invoice->save();
             if($invoice->invoice_srl){
-                if(isset($order->shipment)) $order->order_status = Order::ORDER_STATUS_COMPLETED;
-                else $order->order_status = Order::ORDER_STATUS_PROCESSING;
+                if(isset($order->shipment) || $order->allProductsAreDownloadable())
+                    $order->order_status = Order::ORDER_STATUS_COMPLETED;
+                else
+                    $order->order_status = Order::ORDER_STATUS_PROCESSING;
+
                 try{
                     $order->save();
                 }
@@ -1333,13 +1336,16 @@
 			{
                 $oDB->begin();
                 $order = new Order($cart);
+                if($cart->allProductsAreDownloadable()){
+                    $order->order_status = Order::ORDER_STATUS_PROCESSING;
+                }
 				$order->save(); //obtain srl
 				$order->saveCartProducts($cart);
                 Order::sendNewOrderEmails($order->order_srl);
-                if ($cart->hasDownloadableProducts()){
-                    Order::sendDownloadCodesToCustomer($order);
-                 }
-				$cart->delete();
+                if($cart->hasDownloadableProducts()){
+                    $sent = Order::sendDownloadCodesToCustomer($order->order_srl);
+                }
+ 				$cart->delete();
                 $oDB->commit();
 			}
 			catch(Exception $e)
@@ -1444,8 +1450,13 @@
 			$args->product_type = Context::get('product_type');
             $args->module_srl = $this->module_info->module_srl;
 
-            $repository->deleteProduct($args);
-            $this->setMessage("success_deleted");
+            $deleted = $repository->deleteProduct($args);
+            if (is_bool($deleted) && $deleted){
+                $this->setMessage("success_deleted");
+            }else{
+                return new Object(-1, $deleted->message);
+            }
+
             $returnUrl = getNotEncodedUrl('', 'act', 'dispShopToolManageProducts');
             $this->setRedirectUrl($returnUrl);
         }
@@ -3030,7 +3041,7 @@
             if(!isset($downloadInfo)){
                 return new Object(-1, $lang->invalid_token);
             }
-            if($downloadInfo->getCounter() > 0){
+            if($downloadInfo->downloaded()){
                 return new Object(-1, $lang->token_already_used);
             }
 
@@ -3065,7 +3076,33 @@
             if (!sent){
                 $this->setMessage($lang->sending_downloadable_codes_failed, 'error');
             }else{
-                $this->setMessage($lang->sending_downloadable_codes_succes, 'info');
+                $this->setMessage($lang->sending_downloadable_codes_success, 'info');
+            }
+
+            $this->setRedirectUrl($_SERVER['HTTP_REFERER']);
+        }
+
+        public function procShopToolReactivateDownload(){
+            global $lang;
+
+            $order_srl = Context::get('order_srl');
+            $product_srl = Context::get('product_srl');
+
+            if (!isset($order_srl)){
+                return new Object(-1,$lang->invalid_order);
+            }
+            if (!isset($product_srl)){
+                return new Object(-1,$lang->invalid_product);
+            }
+
+            $shopModel = $this->model;
+            $orderRepo = $shopModel->getOrderRepository();
+            $reset = $orderRepo->resetDownloadInfo($order_srl, $product_srl);
+
+            if (!$reset->toBool()){
+                $this->setMessage($lang->download_reactivation_failed, 'error');
+            }else{
+                $this->setMessage($lang->download_reactivation_success, 'info');
             }
 
             $this->setRedirectUrl($_SERVER['HTTP_REFERER']);

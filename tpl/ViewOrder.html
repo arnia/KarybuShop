@@ -28,7 +28,7 @@
                     <!--@if(!isset($order->invoice))-->
                         <li><a href="{getUrl('act','dispShopToolInvoiceOrder','order_srl',$order->order_srl)}">{$lang->invoice}</a></li>
                     <!--@end-->
-                    <!--@if(!isset($order->shipment))-->
+                    <!--@if(!isset($order->shipment) && !$order->allProductsAreDownloadable())-->
                         <li><a href="{getUrl('act','dispShopToolShipOrder','order_srl',$order->order_srl)}">{$lang->ship}</a></li>
                     <!--@end-->
                 <!--@end-->

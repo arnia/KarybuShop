@@ -187,6 +187,7 @@
         <action name="procShopToolCustomerInsert" type="controller" ruleset="insert_customer"/>
         <action name="procShopToolManageProducts" type="controller"/>
         <action name="procShopToolCheckFriendlyUrlAvailability" type="controller"/>
+        <action name="procShopToolReactivateDownload" type="controller"/>
 
         <action name="procShopAdminCreate" type="controller" standalone="true" ruleset="insert_shop"  />
 		<action name="procShopAdminUpdate" type="controller" standalone="true" ruleset="update_shop" />

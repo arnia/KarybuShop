@@ -289,6 +289,10 @@ class DownloadableProduct extends Product implements ICartItemProduct
         return $dir.$this->content_filename;
     }
 
+    public function substractFromStock($qty){
+        // nothing to do here for a downloadable product
+    }
+
 }
 
 /**

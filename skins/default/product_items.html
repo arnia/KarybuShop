@@ -27,9 +27,8 @@
                 <td><p><img src="{$product->getThumbnailPath(70)}" /></p></td>
                 <td>
                     {$product->getTitle()}
-                    <!--@if ($product->content_filename) -->
-                    <!-- TODO here a link to the download page instead to the resource itself -->
-                    &nbsp;<a class="link" title="Download" target="_blank" href="{getUrl('','act','dispShopDownloadProduct')}">DOWNLOAD</a>
+                    <!--@if ($product-> isDownloadable()) -->
+                    &nbsp;<a class="link" title="Download" target="_blank" href="{getUrl('','act','dispShopDownloadProduct')}">{$lang->download_button}</a>
                     <!--@end-->
                 </td>
                 <!--@else-->
