@@ -45,7 +45,7 @@
             </p>
         </div>
         <p cond="(!$search&&!$filterCategory)||!$productsCount">
-            {sprintf($lang->no_product,getUrl('','act','dispShopToolAddProduct'),getUrl('','act','dispShopToolAddConfigurableProduct'))}
+            {sprintf($lang->no_product,getUrl('','act','dispShopToolAddProduct'),getUrl('','act','dispShopToolAddProduct', 'product_type', 'downloadable'),getUrl('','act','dispShopToolAddConfigurableProduct'))}
         </p>
     </td>
 </tr>
