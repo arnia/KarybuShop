@@ -1437,9 +1437,10 @@ class shopView extends shop {
 
 		 $datasource = "var $datasource_name = new Object();" . PHP_EOL;
 		 if(isset($products)){
+             /** @var $product Product */
 			 foreach($products as $product)
 			 {
-				 if($product->isSimple() || $product->isDownloadable()) continue;
+				 if(!$product->isConfigurable()) continue;
 
 				 $datasource .= $datasource_name . "[$product->product_srl] = new Object();" . PHP_EOL;
 
