@@ -4,7 +4,7 @@
 require_once(_XE_PATH_.'modules/shop/shop.info.php');
 require_once(__DIR__ . '/libs/autoload/autoload.php');
 
-define(__XE_SHOP_DEBUG__, 0);
+define('__XE_SHOP_DEBUG__', 0);
 /**
  * @class  shop
  * @author Arnia (xe_dev@arnia.ro)
@@ -386,7 +386,7 @@ class shop extends ModuleObject {
      * @return bool
      */
     public function checkXECoreVersion($requried_version){
-        $result = version_compare(__XE_VERSION__, $requried_version, '>=');
+        $result = version_compare(__KARYBU_VERSION__, $requried_version, '>=');
         if ($result != 1) return false;
         return true;
     }
