@@ -27,7 +27,7 @@
 
 			<div class="title">
 				<h2>{$shop->getShopTitle()}</h2>
-				<span class="btnGray large"><a href="{getSiteUrl($shop->domain)}">{$lang->cmd_go_shop}</a></span>
+				<span class="btnGray large"><a href="{Context::getRequestUri().$shop->domain}">{$lang->cmd_go_shop}</a></span>
 			</div>
 
 		</div>

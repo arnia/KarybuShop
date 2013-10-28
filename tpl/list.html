@@ -25,8 +25,8 @@
     <!--@foreach($shop_list as $no => $val)-->
     <tr>
         <td>{$no}</td>
-        <td class="wide"><a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;" title="{htmlspecialchars($lang->cmd_view)}">{$val->getBrowserTitle()}</a></td>
-        <td><a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href);return false;">{$val->domain}</a></td>
+        <td class="wide"><a href="{Context::getRequestUri().$val->domain}" onclick="window.open(this.href); return false;" title="{htmlspecialchars($lang->cmd_view)}">{$val->getBrowserTitle()}</a></td>
+        <td><a href="{Context::getRequestUri().$val->domain}" onclick="window.open(this.href);return false;">{$val->domain}</a></td>
         <td class="nowrap">
 			<!--@if($val->getUserId())-->
 			<span class="member_{$val->getMemberSrl()}">{$val->getUserId()}({$val->getNickName()})</span>
@@ -40,6 +40,7 @@
                 <a href="{getUrl('act','dispShopAdminInsert','module_srl',$val->getModuleSrl())}" title="{$lang->cmd_setup}" data-toggle="tooltip"><i class="kConfigure">{$lang->cmd_setup}</i></a>
                 <a href="{getUrl('act','dispShopAdminDelete','module_srl',$val->getModuleSrl())}" title="{$lang->cmd_delete}" data-toggle="tooltip"><i class="kDelete">{$lang->cmd_delete}</i></a>
             </div>
+            <a href="" title="{htmlspecialchars($lang->cmd_delete)}">{$lang->cmd_delete}</a>
         </td>
     </tr>
     <!--@end-->
