@@ -138,7 +138,7 @@
 	</item>
 	<item name="order_successfully_created">
 		<value xml:lang="ko"><![CDATA[정상적으로 주문되었습니다. (주문 번호 %s.)]]></value>
-		<value xml:lang="en"><![CDATA[You order has been successfully created with id %s.]]></value>
+		<value xml:lang="en"><![CDATA[You order has been successfully created with the id %s.]]></value>
 	</item>
 	<item name="view_just_created_order">
 		<value xml:lang="ko"><![CDATA[보기]]></value>
