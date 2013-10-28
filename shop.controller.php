@@ -681,7 +681,7 @@
 
             $args = Context::gets('shop_title','shop_content','shop_email','timezone','telephone','address','unit_of_measure','currency','VAT','show_VAT','out_of_stock_products','minimum_order');
             $args->module_srl = $this->module_srl;
-            $currencies = require_once(_XE_PATH_.'modules/shop/shop.currencies.php');
+            $currencies = require_once(_KARYBU_PATH_.'modules/shop/shop.currencies.php');
             $args->currency_symbol = $currencies[$args->currency]['symbol'];
 
             $output = executeQuery('shop.updateShopInfo',$args);
@@ -1769,7 +1769,7 @@
             $userimages_list = FileHandler::readDir($skin_path."user_images",'/(\.png|\.jpeg|\.jpg|\.gif|\.swf)$/');
             for($i=0,$c=count($userimages_list);$i<$c;$i++) $tar_list[] = 'user_images/' . $userimages_list[$i];
 
-            require_once(_XE_PATH_.'libs/tar.class.php');
+            require_once(_KARYBU_PATH_.'libs/tar.class.php');
             chdir($skin_path);
             $tar = new tar();
 
@@ -1809,7 +1809,7 @@
 
             if(!move_uploaded_file($file['tmp_name'], $tar_file)) exit();
 
-            require_once(_XE_PATH_.'libs/tar.class.php');
+            require_once(_KARYBU_PATH_.'libs/tar.class.php');
 
             $tar = new tar();
             $tar->openTAR($tar_file);
@@ -2218,7 +2218,7 @@
 
             if ($name != '') {
 
-                $baseDir = _XE_PATH_ . 'modules/shop/plugins_payment/';
+                $baseDir = _KARYBU_PATH_ . 'modules/shop/plugins_payment/';
 
                 /**
                  * @var shopModel $shopModel
@@ -2299,7 +2299,7 @@
          */
         public function procShopUploadPaymentPlugin() {
 
-            $baseDir = _XE_PATH_ . 'modules/shop/plugins_payment/';
+            $baseDir = _KARYBU_PATH_ . 'modules/shop/plugins_payment/';
             $uploadedGateway = Context::get('uploadedPaymentGateway');
             $fullName = $uploadedGateway['name'];
             $name = explode('.',$uploadedGateway['name']);
@@ -2802,7 +2802,7 @@
 		// moduleHandler.init after
 		public function triggerDeleteOldLogs()
 		{
-			if(__DEBUG__ && __XE_SHOP_DEBUG__)
+			if(__DEBUG__ && __KARYBU_SHOP_DEBUG__)
 			{
 				FileHandler::writeFile(ShopLogger::LOG_FILE_PATH . '.bk', FileHandler::readFile(ShopLogger::LOG_FILE_PATH), 'a');
 				FileHandler::writeFile(ShopLogger::XE_CORE_DEBUG_MESSAGE_PATH . '.bk', FileHandler::readFile(ShopLogger::XE_CORE_DEBUG_MESSAGE_PATH), 'a');
@@ -2816,7 +2816,7 @@
 		// display after
 		public function triggerDisplayLogMessages()
 		{
-			if(__DEBUG__ && __XE_SHOP_DEBUG__ && !in_array(Context::getResponseMethod(), array('XMLRPC', 'JSON')))
+			if(__DEBUG__ && __KARYBU_SHOP_DEBUG__ && !in_array(Context::getResponseMethod(), array('XMLRPC', 'JSON')))
 			{
 				// Load XE Shop errors
 				$shop_log_messages = FileHandler::readFile(ShopLogger::LOG_FILE_PATH);
@@ -2831,7 +2831,7 @@
 				Context::set('debug_db_query', $debug_db_query);
 
 				$oTemplateHandler = TemplateHandler::getInstance();
-				$view_logs = $oTemplateHandler->compile(_XE_PATH_ . '/modules/shop/tpl', 'log_viewer.html');
+				$view_logs = $oTemplateHandler->compile(_KARYBU_PATH_ . '/modules/shop/tpl', 'log_viewer.html');
 				print $view_logs;
 			}
 		}

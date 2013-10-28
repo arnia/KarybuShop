@@ -16,7 +16,7 @@ class PaymentMethodRepository extends AbstractPluginRepository
 	 */
 	public function getPluginsDirectoryPath()
     {
-        return _XE_PATH_ . 'modules/shop/plugins_payment';
+        return _KARYBU_PATH_ . 'modules/shop/plugins_payment';
     }
 
 	/**

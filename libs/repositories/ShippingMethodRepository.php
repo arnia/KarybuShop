@@ -145,7 +145,7 @@ class ShippingMethodRepository extends AbstractPluginRepository
 	 */
 	function getPluginsDirectoryPath()
     {
-        return _XE_PATH_ . 'modules/shop/plugins_shipping';
+        return _KARYBU_PATH_ . 'modules/shop/plugins_shipping';
     }
 
 	/**

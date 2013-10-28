@@ -197,7 +197,7 @@
              * Create shop menus: header and footer
              */
             // 1. Create menus
-            include(_XE_PATH_  . '/modules/shop/libs/model/ShopMenu.php');
+            include(_KARYBU_PATH_  . '/modules/shop/libs/model/ShopMenu.php');
             $header_menu_srl = $oShopModel->makeMenu($site_srl, 'Header menu');
             $footer_menu_srl = $oShopModel->makeMenu($site_srl, 'Footer menu');
             $menus = array();
@@ -353,7 +353,7 @@
             
             $lang_supported = Context::get('lang_supported');
             foreach($lang_supported as $key => $val) {
-                $lang_cache_file = _XE_PATH_.'files/cache/lang_defined/'.$args->site_srl.'.'.$key.'.php';
+                $lang_cache_file = _KARYBU_PATH_.'files/cache/lang_defined/'.$args->site_srl.'.'.$key.'.php';
                 FileHandler::removeFile($lang_cache_file);
             }
             $oCounterController->deleteSiteCounterLogs($args->site_srl);

@@ -1726,7 +1726,7 @@ class shopView extends shop {
      */
     public function dispShopToolConfigInfo(){
 
-        $currencies = require_once(_XE_PATH_.'modules/shop/shop.currencies.php');
+        $currencies = require_once(_KARYBU_PATH_.'modules/shop/shop.currencies.php');
         Context::set('currencies',$currencies);
 
         Context::set('langs', Context::loadLangSelected());

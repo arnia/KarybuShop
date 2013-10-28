@@ -36,7 +36,7 @@ class ShopUtils
     {
         return
             ($relative ? '' : getFullSiteUrl())
-            . Context::pathToUrl(_XE_PATH_)
+            . Context::pathToUrl(_KARYBU_PATH_)
             . BaseRepository::vid()
             . '/'
             . $pattern;
