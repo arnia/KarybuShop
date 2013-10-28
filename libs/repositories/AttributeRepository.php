@@ -3,7 +3,7 @@
 /**
  * Handles database operations for Attribute
  *
- * @author Florin Ercus (dev@xpressengine.org)
+ * @author Florin Ercus (php@arnia.ro)
  */
 class AttributeRepository extends BaseRepository
 {
@@ -43,7 +43,7 @@ class AttributeRepository extends BaseRepository
 	/**
 	 * Insert a new attribute; returns the ID of the newly created record
 	 *
-	 * @author Florin Ercus (dev@xpressengine.org)
+	 * @author Florin Ercus (php@arnia.ro)
 	 * @param $attribute Attribute
 	 * @return int
 	 */
@@ -68,7 +68,7 @@ class AttributeRepository extends BaseRepository
     /**
      * Insert attribute scope (category)
      *
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      * @param $attribute Attribute
      * @return boolean
      */
@@ -87,7 +87,7 @@ class AttributeRepository extends BaseRepository
 
     /**
      * Updates an attribute
-     * @author Florin Ercus (dev@xpressengine.org)
+     * @author Florin Ercus (php@arnia.ro)
      * @param $attribute Attribute
      * @throws Exception
      * @return mixed
@@ -112,7 +112,7 @@ class AttributeRepository extends BaseRepository
     /**
      * Update attribute scope (category)
      *
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      * @param $attribute Attribute
      * @return boolean
      */
@@ -127,7 +127,7 @@ class AttributeRepository extends BaseRepository
     /**
 	 * Deletes one or more attributes by $attribute_srl or $module_srl
 	 *
-	 * @author Florin Ercus (dev@xpressengine.org)
+	 * @author Florin Ercus (php@arnia.ro)
 	 * @param $args array
 	 */
 	public function deleteAttributes($args)
@@ -151,7 +151,7 @@ class AttributeRepository extends BaseRepository
     /**
      * Delete attribute scope
      *
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      * @param $attribute Attribute
      * @return boolean
      */
@@ -167,7 +167,7 @@ class AttributeRepository extends BaseRepository
 	/**
 	 * Retrieve an attribute object from the database given a list of attribute srls.
 	 *
-	 * @author Florin Ercus (dev@xpressengine.org)
+	 * @author Florin Ercus (php@arnia.ro)
 	 * @param $srls array
 	 * @return mixed|array of attribute objects or only one attribute object if count($srl) is 1
 	 */
@@ -194,7 +194,7 @@ class AttributeRepository extends BaseRepository
 	/**
 	 * Retrieve all value combinations of configurable attributes
 	 *
-	 * @author Dan Dragan(dev@xpressengine.org)
+	 * @author Dan Dragan(php@arnia.ro)
 	 * @param $product array
 	 * @return array of combinations
 	 */
@@ -227,7 +227,7 @@ class AttributeRepository extends BaseRepository
     /**
      * Retrieve attribute Scope
      *
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      * @param $attribute Attribute
      * @return boolean
      */
@@ -245,7 +245,7 @@ class AttributeRepository extends BaseRepository
 
     /**
      * Retrieve a list of Attributes object from the database by modul_srl
-     * @author Florin Ercus (dev@xpressengine.org)
+     * @author Florin Ercus (php@arnia.ro)
      * @param $module_srl int
      * @param $extraArgs array
      * @return Attribute list
@@ -272,7 +272,7 @@ class AttributeRepository extends BaseRepository
 
     /**
      * Add attributes info to export folder
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      *
      * @param array $attributes
      *
@@ -318,7 +318,7 @@ class AttributeRepository extends BaseRepository
 
     /**
      * import attributes from import folder
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      *
      * @param $args for module_srl and member_srl
      *
@@ -366,7 +366,7 @@ class AttributeRepository extends BaseRepository
 
     /**
      * Retrieve a list of configurable Attributes object from the database by modul_srl
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      * @param $module_srl int
      * @return Attribute list
      */

@@ -196,7 +196,7 @@ class PaymentMethodRepository extends AbstractPluginRepository
       *
       * Status: active = 1; inactive = 0
       *
-      * @author Daniel Ionescu (dev@xpressengine.org)
+      * @author Daniel Ionescu (php@arnia.ro)
       * @param  $payment_method
       * @throws exception
       * @return boolean
@@ -208,7 +208,7 @@ class PaymentMethodRepository extends AbstractPluginRepository
     /**
      * Inserts a new payment method
      *
-     * @author Daniel Ionescu (dev@xpressengine.org)
+     * @author Daniel Ionescu (php@arnia.ro)
      * @param  args
      * @throws exception
      * @return boolean
@@ -221,7 +221,7 @@ class PaymentMethodRepository extends AbstractPluginRepository
 	/**
 	 * Get active payment methods
 	 *
-	 * @author Daniel Ionescu (dev@xpressengine.org)
+	 * @author Daniel Ionescu (php@arnia.ro)
 	 *
 	 * @param $module_srl
 	 * @return object

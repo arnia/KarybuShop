@@ -3,7 +3,7 @@
 /**
  * Handles database operations for Orders table
  *
- * @author Florin Ercus (dev@xpressengine.org)
+ * @author Florin Ercus (php@arnia.ro)
  */
 class OrderRepository extends BaseRepository
 {

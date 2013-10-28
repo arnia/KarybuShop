@@ -3,7 +3,7 @@
 /**
  * Handles database operations for the shopping Cart
  *
- * @author Florin Ercus (dev@xpressengine.org)
+ * @author Florin Ercus (php@arnia.ro)
  */
 class CartRepository extends BaseRepository
 {

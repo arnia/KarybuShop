@@ -2,13 +2,18 @@
 
 <h3 class="xeAdmin">{$lang->shop} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<div class="infoText">{nl2br($lang->about_shop)}</div>
-
-<div class="header4">
-    <ul class="localNavigation">
-        <!--li <!--@if($act=='dispShopAdminSetup')-->class="on"<!--@end-->><a href="{getUrl('act','dispShopAdminSetup','module_srl','')}">{$lang->cmd_shop_setup}</a></li-->
-        <li <!--@if($act=='dispShopAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispShopAdminList','module_srl','')}">{$lang->cmd_shop_list}</a></li>
-        <li <!--@if($act=='dispShopAdminInsert')-->class="on"<!--@end-->><a href="{getUrl('act','dispShopAdminInsert','module_srl')}">{$lang->cmd_shop_creation}</a></li>
+<p class="well well-large" id="aboutModule">{nl2br($lang->about_shop)}</p>
+<div class="cnb">
+    <ul class="nav nav-tabs">
+        <!--li <!--@if($act=='dispShopAdminSetup')-->class="active"<!--@end-->><a href="{getUrl('act','dispShopAdminSetup','module_srl','')}">{$lang->cmd_shop_setup}</a></li-->
+        <li <!--@if($act=='dispShopAdminList')-->class="active"<!--@end-->><a href="{getUrl('act','dispShopAdminList','module_srl','')}">{$lang->cmd_shop_list}</a></li>
+        <li <!--@if($act=='dispShopAdminInsert')-->class="active"<!--@end-->>
+            <!--@if(Context::get('module_srl'))-->
+                <a href="{getUrl('act','dispShopAdminInsert','module_srl')}">{$lang->cmd_shop_update}</a>
+            <!--@else-->
+                <a href="{getUrl('act','dispShopAdminInsert','module_srl')}">{$lang->cmd_shop_creation}</a>
+            <!--@end-->
+        </li>
     </ul>
 </div>
 

@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../libs/repositories/ProductRepository.php
 
 /**
  *  Test features related to Products
- *  @author Corina Udrescu (dev@xpressengine.org)
+ *  @author Corina Udrescu (php@arnia.ro)
  */
 class ProductTest extends Shop_Generic_Tests_DatabaseTestCase
 {
@@ -25,7 +25,7 @@ class ProductTest extends Shop_Generic_Tests_DatabaseTestCase
 					;
 
 	/**
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 * @return PHPUnit_Extensions_Database_DataSet_IDataSet
 	 */
 	public function getDataSet()
@@ -108,7 +108,7 @@ class ProductTest extends Shop_Generic_Tests_DatabaseTestCase
 
 	/**
 	 * Tests inserting a new Product - makes sure all fields are properly persisted
-	 * @author Dan dragan (dev@xpressengine.org)
+	 * @author Dan dragan (php@arnia.ro)
 	 */
 	public function testInsertProduct_ValidData()
 	{
@@ -170,7 +170,7 @@ Patrioque conceptam in mea. Est ad ullum ceteros, pro quem accumsan appareat id,
 	/**
 	 * Test inserting a product attribute
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 */
 	public function testInsertProductAttribute()
 	{
@@ -199,7 +199,7 @@ Patrioque conceptam in mea. Est ad ullum ceteros, pro quem accumsan appareat id,
 	 * category it will not be added.
 	 *
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 */
 	public function testInsertProductAttributeSkipsAttributesNotInScope()
 	{

@@ -278,7 +278,7 @@ abstract class AbstractPluginRepository extends BaseRepository
 	 *
 	 * Status: active = 1; inactive = 0
 	 *
-	 * @author Daniel Ionescu (dev@xpressengine.org)
+	 * @author Daniel Ionescu (php@arnia.ro)
 	 * @param \AbstractPlugin $plugin
 	 * @throws ShopException
 	 * @return boolean

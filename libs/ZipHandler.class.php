@@ -2,7 +2,7 @@
 /**
  * Contains methods for processing zip archives
  *
- * @author Dan Dragan (xe_dev@xpressengine.org)
+ * @author Dan Dragan (php@arnia.org)
  **/
 class ZipHandler {
     /**

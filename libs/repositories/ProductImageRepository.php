@@ -3,7 +3,7 @@
 /**
  * Handles database operations for Image
  *
- * @author Dan Dragan (dev@xpressengine.org)
+ * @author Dan Dragan (php@arnia.ro)
  */
 class ProductImageRepository extends BaseRepository
 {
@@ -39,7 +39,7 @@ class ProductImageRepository extends BaseRepository
 	/**
 	 * Save image to disk
 	 *
-	 * @author Dan Dragan (dev@xpressengine.org)
+	 * @author Dan Dragan (php@arnia.ro)
 	 * @param $image ProductImage
 	 * @return boolean
 	 */

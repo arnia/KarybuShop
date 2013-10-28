@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../shop.info.php';
 
 /**
  *  Test features related to Product categories
- * @author Corina Udrescu (dev@xpressengine.org)
+ * @author Corina Udrescu (php@arnia.ro)
  */
 class CategoryTest extends Shop_Generic_Tests_DatabaseTestCase
 {

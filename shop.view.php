@@ -2,7 +2,7 @@
 
 /**
  * @class  shopView
- * @author Arnia (xe_dev@arnia.ro)
+ * @author Arnia (php@arnia.ro)
  *  shop module View class
  **/
 
@@ -31,7 +31,6 @@ class shopView extends shop {
 	 * Shop common init
 	 **/
 	public function initCommon($is_other_module = FALSE){
-		if(!$this->checkXECoreVersion('1.4.3')) return $this->stop(sprintf(Context::getLang('msg_requried_version'),'1.4.3'));
 
 		$oShopModel = getModel('shop');
 		$oShopController = getController('shop');

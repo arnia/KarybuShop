@@ -3,7 +3,7 @@
 /**
  * Handles database operations for Newsletter table
  *
- * @author Dan Dragan (dev@xpressengine.org)
+ * @author Dan Dragan (php@arnia.ro)
  */
 class NewsletterRepository extends BaseRepository
 {

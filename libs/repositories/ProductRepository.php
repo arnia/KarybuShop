@@ -2,7 +2,7 @@
 /**
  * Handles database operations for Product
  *
- * @author Dan Dragan (dev@xpressengine.org)
+ * @author Dan Dragan (php@arnia.ro)
  */
 class ProductRepository extends BaseRepository
 {
@@ -99,7 +99,7 @@ class ProductRepository extends BaseRepository
 	/**
 	 * Insert product images
 	 *
-	 * @author Dan Dragan (dev@xpressengine.org)
+	 * @author Dan Dragan (php@arnia.ro)
 	 * @param $product Product
 	 * @return boolean
 	 */
@@ -332,7 +332,7 @@ class ProductRepository extends BaseRepository
 	/**
 	 * Delete associated products
 	 *
-	 * @author Dan Dragan (dev@xpressengine.org)
+	 * @author Dan Dragan (php@arnia.ro)
 	 * @param $product Product
 	 * @return boolean
 	 */
@@ -684,7 +684,7 @@ class ProductRepository extends BaseRepository
 
 	/**
 	 * Add products info to export folder
-	 * @author Dan Dragan (dev@xpressengine.org)
+	 * @author Dan Dragan (php@arnia.ro)
 	 *
 	 * @param array $products
 	 *
@@ -892,7 +892,7 @@ class ProductRepository extends BaseRepository
     /**
      * Update product categories
      *
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      * @param $product Product
      * @return boolean
      */
@@ -906,7 +906,7 @@ class ProductRepository extends BaseRepository
 	/**
 	 * Update product attributes
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 * @param $product Product
 	 * @return boolean
 	 */

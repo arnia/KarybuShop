@@ -237,12 +237,12 @@
 		<value xml:lang="en"><![CDATA[Shop]]></value>
 	</item>
 	<item name="about_shop">
-		<value xml:lang="ko"><![CDATA[상점 모듈은 XpressEngine에서 작동되고 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Shop is a e-shop module running on XpressEngine.]]></value>
+		<value xml:lang="ko"><![CDATA[상점 모듈은 Karybu 에서 작동되고 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[E-shop module running on Karybu]]></value>
 	</item>
 	<item name="msg_requried_version">
 		<value xml:lang="ko"><![CDATA[상점 모듈은 %s. 버전 이상의 XE Core에서만 작동합니다.]]></value>
-		<value xml:lang="en"><![CDATA[Shop requires XE core version equal to or greater than %s.]]></value>
+		<value xml:lang="en"><![CDATA[Shop requires Karybu core version equal to or greater than %s.]]></value>
 	</item>
 	<item name="title">
 		<value xml:lang="ko"><![CDATA[제목]]></value>

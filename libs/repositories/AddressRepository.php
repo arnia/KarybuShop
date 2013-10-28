@@ -3,7 +3,7 @@
 /**
  * Handles database operations for the Address table
  *
- * @author Florin Ercus (dev@xpressengine.org)
+ * @author Florin Ercus (php@arnia.ro)
  */
 class AddressRepository extends BaseRepository
 {
@@ -41,7 +41,7 @@ class AddressRepository extends BaseRepository
     /**
      * Make all existing address not to be default for billing
      *
-     * @author Dan Dragan   (dev@xpressengine.org)
+     * @author Dan Dragan   (php@arnia.ro)
      * @param $member_srl
      * @return mixed
      */
@@ -55,7 +55,7 @@ class AddressRepository extends BaseRepository
     /**
      * Make all existing address not to be default  for shipping
      *
-     * @author Dan Dragan  (dev@xpressengine.org)
+     * @author Dan Dragan  (php@arnia.ro)
      * @param $member_srl
      * @return mixed
      */
@@ -69,7 +69,7 @@ class AddressRepository extends BaseRepository
     /**
      * get address by address_srl
      *
-     * @author Dan Dragan   (dev@xpressengine.org)
+     * @author Dan Dragan   (php@arnia.ro)
      * @param $address_srl
      * @return Address
      */
@@ -148,7 +148,7 @@ class AddressRepository extends BaseRepository
     /**
      * delete address by address_srl
      *
-     * @author Dan Dragan   (dev@xpressengine.org)
+     * @author Dan Dragan   (php@arnia.ro)
      * @param $address_srl
      * @return mixed
      */

@@ -2,7 +2,7 @@
 /**
  * Base model class for Customer
  *
- * @author Dan Dragan (dev@xpressengine.org)
+ * @author Dan Dragan (php@arnia.ro)
  */
 class Customer extends BaseItem
 {

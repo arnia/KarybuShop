@@ -2,7 +2,7 @@
 /**
  * Base model class for Addresses
  *
- * @author Dan Dragan (dev@xpressengine.org)
+ * @author Dan Dragan (php@arnia.ro)
  */
 class Address extends BaseItem
 {

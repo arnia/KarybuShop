@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../libs/model/Category.php';
 
 /**
  *  Test features related to Product categories hierarchical tree display and sorting
- * @author Corina Udrescu (dev@xpressengine.org)
+ * @author Corina Udrescu (php@arnia.ro)
  */
 class CategoryTreeSortingTest extends Shop_Generic_Tests_DatabaseTestCase
 {

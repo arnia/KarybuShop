@@ -5,7 +5,7 @@ require dirname(__FILE__) . '/Database.php';
 /**
  * Base class for tests using a database
  *
- * @author Corina Udrescu (dev@xpressengine.org)
+ * @author Corina Udrescu (php@arnia.ro)
  */
 abstract class TestAgainstDatabase extends PHPUnit_Extensions_Database_TestCase
 {
@@ -17,7 +17,7 @@ abstract class TestAgainstDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Prepare runtime context - tell DB class about current db connection info
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 */
 	protected function setUp()
 	{
@@ -38,7 +38,7 @@ abstract class TestAgainstDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Free resources - reset static DB and QueryParser
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 */
 	protected function tearDown()
 	{

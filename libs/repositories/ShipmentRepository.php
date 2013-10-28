@@ -3,7 +3,7 @@
 /**
  * Handles database operations for Shipment table
  *
- * @author Dan Dragan (dev@xpressengine.org)
+ * @author Dan Dragan (php@arnia.ro)
  */
 class ShipmentRepository extends BaseRepository
 {

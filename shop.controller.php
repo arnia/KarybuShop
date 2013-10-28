@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  shopController
-     * @author NHN (developers@xpressengine.com)
+     * @author Arnia (php@arnia.ro)
      *  shop module Controller class
      **/
 
@@ -348,7 +348,7 @@
 
 		/*
 		* brief function for product insert duplicate
-		* @author Dan Dragan (dev@xpressengine.org)
+		* @author Dan Dragan (php@arnia.ro)
 		*/
 		public function procShopToolInsertDuplicate(){
 			$shopModel = $this->model;
@@ -400,7 +400,7 @@
 
 		/*
 		* brief function for export products to csv
-		* @author Dan Dragan (dev@xpressengine.org)
+		* @author Dan Dragan (php@arnia.ro)
 		*/
 		public function procShopToolExportProducts(){
 			$shopModel = $this->model;
@@ -444,7 +444,7 @@
 
         /*
           * brief function for import products to csv
-          * @author Dan Dragan (dev@xpressengine.org)
+          * @author Dan Dragan (php@arnia.ro)
           */
         public function procShopToolImportProducts(){
             $shopModel = $this->model;
@@ -773,7 +773,7 @@
         }
 
         /*
-         * @author Florin Ercus (dev@xpressengine.org)
+         * @author Florin Ercus (php@arnia.ro)
          */
         public function procShopSearch()
         {
@@ -1339,7 +1339,7 @@
 
         /*
          * Remove products from cart
-         * @author Florin Ercus (dev@xpressengine.org)
+         * @author Florin Ercus (php@arnia.ro)
          */
         public function procShopCartRemoveProducts() {
             $cart_srl = Context::get('cart_srl');
@@ -1358,7 +1358,7 @@
         /*
          * Update product quantities in cart
          * Expects $quantities to be something like array('prod_srl'=>$newQuantity, ...)
-         * @author Florin Ercus (dev@xpressengine.org)
+         * @author Florin Ercus (php@arnia.ro)
          */
         public function procShopCartUpdateProducts() {
             $cart_srl = Context::get('cart_srl');
@@ -1388,7 +1388,7 @@
 
         /*
         * function for product delete
-        * @author Dan Dragan (dev@xpressengine.org)
+        * @author Dan Dragan (php@arnia.ro)
         */
         public function procShopToolDeleteProduct() {
             $shopModel = $this->model;
@@ -1406,7 +1406,7 @@
 
         /*
         * function for multiple products delete
-        * @author Dan Dragan (dev@xpressengine.org)
+        * @author Dan Dragan (php@arnia.ro)
         */
         public function procShopToolDeleteProducts(){
             $shopModel = $this->model;
@@ -1423,7 +1423,7 @@
 
         /*
         * function for multiple attributes delete
-        * @author Florin Ercus (dev@xpressengine.org)
+        * @author Florin Ercus (php@arnia.ro)
         */
         public function procShopToolDeleteAttributes()
         {
@@ -1513,7 +1513,7 @@
 
         /*
         * function for customer insertion
-        * @author Dan Dragan (dev@xpressengine.org)
+        * @author Dan Dragan (php@arnia.ro)
         */
         public function procShopToolCustomerInsert(){
             $oMemberController = getController('member');
@@ -1602,7 +1602,7 @@
 
         /*
         * function for multiple newsletter delete
-        * @author Dan Dragan (dev@xpressengine.org)
+        * @author Dan Dragan (php@arnia.ro)
         */
         public function procShopToolDeleteNewsletters(){
             $shopModel = $this->model;
@@ -1841,7 +1841,7 @@
                    ,'mysql','sqlite','PDO','cubird','ibase','pg_','_pconnect','_connect','oci'
                    // network /etc
                    ,'fsockopen','pfsockopen','shmop_','shm_','sem_','dl','ini_','php','zend','pear','header','create_function','call_*','imap','openlog','socket','ob_','cookie','eval','exec','shell_exec','passthru'
-                   // XE
+                   // KARYBU
                    ,'filehandler','displayhandler','xehttprequest','context','getmodel','getcontroller','getview','getadminmodel','getadmincontroller','getadminview','getdbinfo','executequery','executequeryarray'
             );
             unset($match);
@@ -1972,7 +1972,7 @@
 		/**
 		 * Inserts or updates a product category
 		 *
-		 * @author Corina Udrescu (dev@xpressengine.org)
+		 * @author Corina Udrescu (php@arnia.ro)
 		 * @return Object
 		 */
 		public function procShopToolInsertCategory()
@@ -2038,7 +2038,7 @@
 		 * Returns product category details
 		 * Called through AJAX
 		 *
-		 * @author Corina Udrescu (dev@xpressengine.org)
+		 * @author Corina Udrescu (php@arnia.ro)
 		 * @return Object
 		 */
 		public function procShopServiceGetCategory()
@@ -2069,7 +2069,7 @@
 		 * Deletes a product category
 		 * Called through AJAX
 		 *
-		 * @author Corina Udrescu (dev@xpressengine.org)
+		 * @author Corina Udrescu (php@arnia.ro)
 		 * @return Object
 		 */
 		public function procShopServiceDeleteCategory()
@@ -2116,7 +2116,7 @@
         /**
          * Activates a new payment method
          *
-         * @author Daniel Ionescu (dev@xpressengine.org)
+         * @author Daniel Ionescu (php@arnia.ro)
          */
         public function procUpdateShopActivatePaymentMethod() {
 
@@ -2140,7 +2140,7 @@
         /**
          * Deactivates a payment method
          *
-         * @author Daniel Ionescu (dev@xpressengine.org)
+         * @author Daniel Ionescu (php@arnia.ro)
          */
         public function procUpdateShopDeactivatePaymentMethod() {
 
@@ -2210,7 +2210,7 @@
         /**
          * Deletes the payment plugins folder and database entry
          *
-         * @author Daniel Ionescu (dev@xpressengine.org)
+         * @author Daniel Ionescu (php@arnia.ro)
          */
         public function procUpdateShopDeletePaymentMethod() {
             global $lang;
@@ -2295,7 +2295,7 @@
         /**
          * Uploads and installs a new payment method
          *
-         * @author Daniel Ionescu (dev@xpressengine.org)
+         * @author Daniel Ionescu (php@arnia.ro)
          */
         public function procShopUploadPaymentPlugin() {
 
@@ -2440,7 +2440,7 @@
 		 * Retrieves all module instances of a certain type
 		 * Called through AJAX
 		 *
-		 * @author Corina Udrescu (dev@xpressengine.org)
+		 * @author Corina Udrescu (php@arnia.ro)
 		 * @return Object
 		 */
 		public function procShopServiceGetModulesByTypeAndSiteSrl()
@@ -2805,11 +2805,11 @@
 			if(__DEBUG__ && __KARYBU_SHOP_DEBUG__)
 			{
 				FileHandler::writeFile(ShopLogger::LOG_FILE_PATH . '.bk', FileHandler::readFile(ShopLogger::LOG_FILE_PATH), 'a');
-				FileHandler::writeFile(ShopLogger::XE_CORE_DEBUG_MESSAGE_PATH . '.bk', FileHandler::readFile(ShopLogger::XE_CORE_DEBUG_MESSAGE_PATH), 'a');
-				FileHandler::writeFile(ShopLogger::XE_CORE_DEBUG_DB_QUERY_PATH . '.bk', FileHandler::readFile(ShopLogger::XE_CORE_DEBUG_DB_QUERY_PATH), 'a');
+				FileHandler::writeFile(ShopLogger::KARYBU_CORE_DEBUG_MESSAGE_PATH . '.bk', FileHandler::readFile(ShopLogger::KARYBU_CORE_DEBUG_MESSAGE_PATH), 'a');
+				FileHandler::writeFile(ShopLogger::KARYBU_CORE_DEBUG_DB_QUERY_PATH . '.bk', FileHandler::readFile(ShopLogger::KARYBU_CORE_DEBUG_DB_QUERY_PATH), 'a');
 				FileHandler::removeFile(ShopLogger::LOG_FILE_PATH);
-				FileHandler::removeFile(ShopLogger::XE_CORE_DEBUG_MESSAGE_PATH);
-				FileHandler::removeFile(ShopLogger::XE_CORE_DEBUG_DB_QUERY_PATH);
+				FileHandler::removeFile(ShopLogger::KARYBU_CORE_DEBUG_MESSAGE_PATH);
+				FileHandler::removeFile(ShopLogger::KARYBU_CORE_DEBUG_DB_QUERY_PATH);
 			}
 		}
 
@@ -2823,11 +2823,11 @@
 				Context::set('shop_log_messages', $shop_log_messages);
 
 				// Load XE Core query log
-				$debug_messages = FileHandler::readFile(ShopLogger::XE_CORE_DEBUG_MESSAGE_PATH);
+				$debug_messages = FileHandler::readFile(ShopLogger::KARYBU_CORE_DEBUG_MESSAGE_PATH);
 				Context::set('debug_messages', $debug_messages);
 
 				// Load DB Query log
-				$debug_db_query = FileHandler::readFile(ShopLogger::XE_CORE_DEBUG_DB_QUERY_PATH);
+				$debug_db_query = FileHandler::readFile(ShopLogger::KARYBU_CORE_DEBUG_DB_QUERY_PATH);
 				Context::set('debug_db_query', $debug_db_query);
 
 				$oTemplateHandler = TemplateHandler::getInstance();

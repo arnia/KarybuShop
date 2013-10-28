@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  shopAdminView
-     * @author Arnia (xe_dev@arnia.ro)
+     * @author Arnia (php@arnia.ro)
      *  shop module admin view class
      **/
 

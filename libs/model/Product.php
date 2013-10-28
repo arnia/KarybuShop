@@ -2,7 +2,7 @@
 /**
  * Base model class for Product
  *
- * @author Dan Dragan (dev@xpressengine.org)
+ * @author Dan Dragan (php@arnia.ro)
  */
 abstract class Product extends BaseItem
 {
@@ -31,7 +31,7 @@ abstract class Product extends BaseItem
 	public $images = array();
 	public $primary_image;
 	public $primary_image_filename;
-    public $document_srl; //used to link products to xe comments
+    public $document_srl; //used to link products to karybu comments
     public $document;  // document item
     public $comment_list; // list of comments
 

@@ -4,21 +4,22 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<!--@if($shop)-->
-	<form action="./" method="post" id="shopFo" ruleset="update_shop">
-		<input type="hidden" name="site_srl" value="{$shop->site_srl}" />
-		<input type="hidden" name="module_srl" value="{$module_srl}" />
-		<input type="hidden" name="module" value="shop" />
-		<input type="hidden" name="act" value="procShopAdminUpdate" />
-		<input type="hidden" name="error_return_url" value="{getUrl('module', 'admin', 'act', 'dispShopAdminInsert', 'module_srl', $module_srl)}" />
-<!--@else-->
-	<form action="./" method="post" ruleset="insert_shop" id="shopFo">
-		<input type="hidden" name="module" value="shop" />
-		<input type="hidden" name="act" value="procShopAdminCreate" />
-		<input type="hidden" name="error_return_url" value="{getUrl('module', 'admin', 'act', 'dispShopAdminInsert')}" />
-<!--@end-->
 
-	<table cellspacing="0" class="rowTable">
+	<form action="./" method="post" id="shopFo" <!--@if($shop)-->ruleset="update_shop"<!--@else-->ruleset="insert_shop"<!--@end-->>
+        <!--@if($shop)-->
+        <input type="hidden" name="site_srl" value="{$shop->site_srl}" />
+        <input type="hidden" name="module_srl" value="{$module_srl}" />
+        <!--@end-->
+		<input type="hidden" name="module" value="shop" />
+        <!--@if($shop)-->
+		<input type="hidden" name="act" value="procShopAdminUpdate" />
+        <input type="hidden" name="error_return_url" value="{getUrl('module', 'admin', 'act', 'dispShopAdminInsert', 'module_srl', $module_srl)}" />
+        <!--@else-->
+        <input type="hidden" name="act" value="procShopAdminCreate" />
+        <input type="hidden" name="error_return_url" value="{getUrl('module', 'admin', 'act', 'dispShopAdminInsert')}" />
+        <!--@end-->
+
+	<table cellspacing="0" class="table table-bordered table-condensed">
 	<caption>&nbsp;</caption>
 	<tbody>
         <tr>
@@ -46,6 +47,6 @@
 	</tbody>
 	</table>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="<!--@if($shop)-->{$lang->cmd_shop_update}<!--@else-->{$lang->cmd_shop_creation}<!--@end-->" /></span>
+		<input class="btn btn-primary" type="submit" value="<!--@if($shop)-->{$lang->cmd_shop_update}<!--@else-->{$lang->cmd_shop_creation}<!--@end-->" />
 	</div>
 </form>

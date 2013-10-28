@@ -3,7 +3,7 @@
 /**
  * Handles database operations for Guests table
  *
- * @author Florin Ercus (dev@xpressengine.org)
+ * @author Florin Ercus (php@arnia.ro)
  */
 class GuestRepository extends BaseRepository
 {

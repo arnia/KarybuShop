@@ -15,7 +15,7 @@ class CategoryRepository extends BaseRepository
 	/**
 	 * Returns an absolute url for category with friendly_url $slug
 	 *
-	 * @author Florin Ercus (dev@xpressengine.org)
+	 * @author Florin Ercus (php@arnia.ro)
 	 *
 	 * @param      $slug string
 	 *
@@ -30,7 +30,7 @@ class CategoryRepository extends BaseRepository
 	/**
 	 * Retrieve a Category object from the database given a friendly url
 	 *
-	 * @author Florin Ercus (dev@xpressengine.org)
+	 * @author Florin Ercus (php@arnia.ro)
 	 *
 	 * @param      $str string
 	 *
@@ -253,7 +253,7 @@ class CategoryRepository extends BaseRepository
 
     /**
      * Add categories info to export folder
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      *
      * @param array $categories
      *
@@ -299,7 +299,7 @@ class CategoryRepository extends BaseRepository
 
 	/**
 	 * import categories from import folder
-	 * @author   Dan Dragan (dev@xpressengine.org)
+	 * @author   Dan Dragan (php@arnia.ro)
 	 *
 	 * @param $params
 	 * @internal param \for $args module_srl

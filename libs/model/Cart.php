@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Florin Ercus (dev@xpressengine.org)
+ * @author Florin Ercus (php@arnia.ro)
  */
 class Cart extends BaseItem implements IProductItemsContainer
 {

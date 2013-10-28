@@ -3,7 +3,7 @@
 /**
  * Handles database operations for Customer
  *
- * @author Dan Dragan (dev@xpressengine.org)
+ * @author Dan Dragan (php@arnia.ro)
  */
 class CustomerRepository extends BaseRepository
 {

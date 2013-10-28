@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  shopModel
- * @author Arnia (xe_dev@arnia.ro)
+ * @author Arnia (php@arnia.ro)
  *  shop module Model class
  */
 class shopModel extends shop
@@ -9,7 +9,7 @@ class shopModel extends shop
 
 	/**
 	 * Initialization
-	 * @author Arnia (dev@xpressengine.org)
+	 * @author Arnia (php@arnia.ro)
 	 */
 	public function init()
 	{
@@ -18,7 +18,7 @@ class shopModel extends shop
 
 	/**
 	 * Get member shop
-	 * @author Arnia (dev@xpressengine.org)
+	 * @author Arnia (php@arnia.ro)
 	 */
 	public function getMemberShop($member_srl = 0)
 	{
@@ -55,7 +55,7 @@ class shopModel extends shop
     /**
      * Shop return order statistics
      *
-     * @author Arnia (dev@xpressengine.org)
+     * @author Arnia (php@arnia.ro)
      */
     public function getOrderStatistics($module_srl){
         $args = new stdClass();
@@ -94,7 +94,7 @@ class shopModel extends shop
 	/**
 	 * Shop return
 	 *
-	 * @author Arnia (dev@xpressengine.org)
+	 * @author Arnia (php@arnia.ro)
 	 * @param $module_srl int
 	 * @return ShopInfo
 	 */
@@ -111,7 +111,7 @@ class shopModel extends shop
 	/**
 	 * Return shop count
 	 *
-	 * @author Arnia (dev@xpressengine.org)
+	 * @author Arnia (php@arnia.ro)
 	 * @param $member_srl int
 	 * @return int
 	 */
@@ -137,7 +137,7 @@ class shopModel extends shop
 	/**
 	 * Get shop path
 	 *
-	 * @author Arnia (dev@xpressengine.org)
+	 * @author Arnia (php@arnia.ro)
 	 * @param $module_srl int
 	 * @return string
 	 */
@@ -148,7 +148,7 @@ class shopModel extends shop
 
 	/**
 	 *
-	 * @author Arnia (dev@xpressengine.org)
+	 * @author Arnia (php@arnia.ro)
 	 * @param $module_srl int
 	 * @param $skin
 	 * @return bool
@@ -167,7 +167,7 @@ class shopModel extends shop
 	/**
 	 * Get shop user skin file list
 	 *
-	 * @author Arnia (dev@xpressengine.org)
+	 * @author Arnia (php@arnia.ro)
 	 * @param $module_srl
 	 * @return string[]
 	 */
@@ -181,7 +181,7 @@ class shopModel extends shop
     /**
      * Get Favicon source
      *
-     * @author Arnia (dev@xpressengine.org)
+     * @author Arnia (php@arnia.ro)
      * @param $module_srl
      * @return string
      */
@@ -196,7 +196,7 @@ class shopModel extends shop
     /**
      * Get Favicon path
      *
-     * @author Arnia (dev@xpressengine.org)
+     * @author Arnia (php@arnia.ro)
      * @param $module_srl
      * @return string
      */
@@ -207,7 +207,7 @@ class shopModel extends shop
     /**
      * Get default path
      *
-     * @author Arnia (dev@xpressengine.org)
+     * @author Arnia (php@arnia.ro)
      * @return string
      */
     function getShopDefaultFaviconSrc(){
@@ -217,7 +217,7 @@ class shopModel extends shop
 	/**
 	 * Get module part config
 	 *
-	 * @author Arnia (dev@xpressengine.org)
+	 * @author Arnia (php@arnia.ro)
 	 * @param $module_srl int
 	 * @return mixed
 	 */
@@ -260,7 +260,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Product repository
      *
-     * @author Dan Dragan(dev@xpressengine.org)
+     * @author Dan Dragan(php@arnia.ro)
      * @return ProductRepository
      */
     public function getProductRepository()
@@ -271,7 +271,7 @@ class shopModel extends shop
 	/**
 	 * Returns an instance of the Image repository
 	 *
-	 * @author Dan Dragan(dev@xpressengine.org)
+	 * @author Dan Dragan(php@arnia.ro)
 	 * @return ProductImageRepository
 	 */
 	public function getImageRepository()
@@ -282,7 +282,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Attribute repository
      *
-     * @author Dan Dragan(dev@xpressengine.org)
+     * @author Dan Dragan(php@arnia.ro)
      * @return AttributeRepository
      */
     public function getAttributeRepository()
@@ -293,7 +293,7 @@ class shopModel extends shop
 	/**
 	 * Returns an instance of the Product Category repository
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 * @return CategoryRepository
 	 */
     public function getCategoryRepository()
@@ -304,7 +304,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Payment Methods repository
      *
-     * @author Daniel Ionescu (dev@xpressengine.org)
+     * @author Daniel Ionescu (php@arnia.ro)
      * @return PaymentMethodRepository
      */
     public function getPaymentMethodRepository()
@@ -315,7 +315,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Cart repository
      *
-     * @author Florin Ercus (dev@xpressengine.org)
+     * @author Florin Ercus (php@arnia.ro)
      * @return CartRepository
      */
     public function getCartRepository()
@@ -326,7 +326,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Order repository
      *
-     * @author Florin Ercus (dev@xpressengine.org)
+     * @author Florin Ercus (php@arnia.ro)
      * @return OrderRepository
      */
     public function getOrderRepository()
@@ -337,7 +337,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Invoice repository
      *
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      * @return InvoiceRepository
      */
     public function getInvoiceRepository()
@@ -348,7 +348,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Shipment repository
      *
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      * @return ShipmentRepository
      */
     public function getShipmentRepository()
@@ -359,7 +359,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Address repository
      *
-     * @author Florin Ercus (dev@xpressengine.org)
+     * @author Florin Ercus (php@arnia.ro)
      * @return AddressRepository
      */
     public function getAddressRepository()
@@ -370,7 +370,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Newsletter repository
      *
-     * @author Dan Dragan (dev@xpressengine.org)
+     * @author Dan Dragan (php@arnia.ro)
      * @return NewsletterRepository
      */
     public function getNewsletterRepository()
@@ -381,7 +381,7 @@ class shopModel extends shop
     /**
      * Returns an instance of the Guest repository
      *
-     * @author Florin Ercus (dev@xpressengine.org)
+     * @author Florin Ercus (php@arnia.ro)
      * @return GuestRepository
      */
     public function getGuestRepository()
@@ -392,7 +392,7 @@ class shopModel extends shop
     /**
      * Includes Zip Handler Class
      *
-     * @author Dan Dragan(dev@xpressengine.org)
+     * @author Dan Dragan(php@arnia.ro)
      */
     public function includeZipHandler()
     {
@@ -402,7 +402,7 @@ class shopModel extends shop
     /**
      * Includes TCPDF library
      *
-     * @author Dan Dragan(dev@xpressengine.org)
+     * @author Dan Dragan(php@arnia.ro)
      */
     public function includeTCPDF()
     {

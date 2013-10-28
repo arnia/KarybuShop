@@ -7,7 +7,7 @@ require_once(__DIR__ . '/libs/autoload/autoload.php');
 define(__KARYBU_SHOP_DEBUG__, 0);
 /**
  * @class  shop
- * @author Arnia (xe_dev@arnia.ro)
+ * @author Arnia (php@arnia.ro)
  *  shop module main class
  **/
 class shop extends ModuleObject {
@@ -350,17 +350,6 @@ class shop extends ModuleObject {
      * recompile cache
      **/
     public function recompileCache() {
-    }
-
-    /**
-     * check xe core version
-     * @param $requried_version
-     * @return bool
-     */
-    public function checkXECoreVersion($requried_version){
-        $result = version_compare(__KARYBU_VERSION__, $requried_version, '>=');
-        if ($result != 1) return false;
-        return true;
     }
 
 }

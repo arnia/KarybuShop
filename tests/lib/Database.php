@@ -3,7 +3,7 @@
 /**
  * Thin wrapper for a Mysql database
  *
- * @author Corina Udrescu (dev@xpressengine.org)
+ * @author Corina Udrescu (php@arnia.ro)
  */
 class Database
 {
@@ -13,7 +13,7 @@ class Database
 	/**
 	 * Connect to the database
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 * @static
 	 * @throws Exception
 	 */
@@ -41,7 +41,7 @@ class Database
 	/**
 	 * Executes a query than returns a data set - SELECT statements
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 * @static
 	 * @param $query string
 	 * @return array
@@ -69,7 +69,7 @@ class Database
 	 * Executes a query that does not return anything
 	 * e.g. INSERT, UPDATE, DELETE, CREATE TABLE, TRUNCATE
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 * @static
 	 * @param $query string
 	 * @return bool
@@ -88,7 +88,7 @@ class Database
 	/**
 	 * Closes the connection to the database
 	 *
-	 * @author Corina Udrescu (dev@xpressengine.org)
+	 * @author Corina Udrescu (php@arnia.ro)
 	 */
 	public function __destruct()
 	{

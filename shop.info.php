@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  ShopInfo
-     * @author Arnia (xe_dev@arnia.ro)
+     * @author Arnia (php@arnia.ro)
      *  shop module Shop info class
      **/
 
