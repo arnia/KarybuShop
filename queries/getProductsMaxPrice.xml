@@ -3,7 +3,7 @@
         <table name="shop_products" />
     </tables>
     <columns>
-        <column name="MAX(discount_price)" alias="max" />
+        <column name="MAX(price)" alias="max" />
     </columns>
     <conditions>
         <condition operation="equal" column="module_srl" var="module_srl" notnull="notnull" />

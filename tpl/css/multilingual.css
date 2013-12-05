@@ -45,3 +45,16 @@
     margin: 0 5px;
     vertical-align: bottom;
 }
+
+.ui-widget-overlay{
+	z-index: 900;
+	position:fixed;
+}
+
+.ui-dialog{
+	z-index: 1000;
+}
+
+.ui-dialog .ui-dialog-titlebar-close span{
+	margin: -8px;
+}

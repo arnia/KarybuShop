@@ -106,10 +106,7 @@
                         <label for="description">{$lang->description}</label>
                     </th>
                     <td class="title">
-                        <div class="fItem">
-                            <label class="iLabel" for="description">{$lang->about_description}</label>
-                            <textarea name="description" rows="8" cols="100" class="iTextarea" id="description" title="{$lang->about_description}"><!--@if($product->title)-->{$product->description}<!--@end--></textarea>
-                        </div>
+                            {ShopDisplay::multiLanguageTextarea('description', 'description', $product->description, '', 'iTextarea', $lang->about_description, 'iLabel', 'fItem',8,100)}
                     </td>
                 </tr>
                 <tr>
@@ -117,10 +114,7 @@
                         <label for="short_description">{$lang->short_description}</label>
                     </th>
                     <td class="title">
-                        <div class="fItem">
-                            <label class="iLabel" for="short_description">{$lang->about_short_description}</label>
-                            <textarea name="short_description" rows="8" cols="100" class="iTextarea" id="short_description" title="{$lang->about_short_description}"><!--@if($product->short_description)-->{$product->short_description}<!--@end--></textarea>
-                        </div>
+                            {ShopDisplay::multiLanguageTextarea('short_description', 'short_description', $product->short_description, '', 'iTextarea', $lang->about_short_description, 'iLabel', 'fItem',8,100)}
                     </td>
                 </tr>
                 <!--@endif-->

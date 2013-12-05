@@ -15,8 +15,8 @@
         <condition operation="null" column="parent_product_srl" pipe="and" />
         <condition operation="equal" column="status" var="status" default="enabled" pipe="and"/>
         <condition operation="equal" column="in_stock" var="in_stock" pipe="and"/>
-        <condition operation="less" column="discount_price" var="max_price" pipe="and"/>
-        <condition operation="more" column="discount_price" var="min_price" pipe="and"/>
+        <condition operation="less" column="price" var="max_price" pipe="and"/>
+        <condition operation="more" column="price" var="min_price" pipe="and"/>
         <!--search-->
         <group pipe="and">
             <condition operation="equal" column="sku" var="sku" pipe="or"/>

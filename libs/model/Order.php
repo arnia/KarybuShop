@@ -305,4 +305,15 @@ class Order extends BaseItem implements IProductItemsContainer
 		self::sendNewOrderMailToCustomer($shop, $order);
 		self::sendNewOrderMailToAdministrator($shop, $order);
 	}
+
+    /**
+     * @return Coupon|null
+     * TODO this was added from cart model and should be revised
+     */
+    public function getCoupon()
+    {
+        /** @var $coupon Coupon */
+        if ((($coupon = self::$cache->get('coupon')) instanceof Coupon) && $coupon->isPersisted()) return $coupon;
+        return null;
+    }
 }

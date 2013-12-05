@@ -1,5 +1,5 @@
 <!--%import("jquery.numeric.js")-->
-
+<!--@if(isset($filter_attributes) && !empty($filter_attributes))-->
 <h3>Filters</h3>
 <div class="body-left-panel-content filters">
     <form action="./">
@@ -19,7 +19,7 @@
                         </span>
                     </p>
             </li>
-            <li id="filter_attributes" cond="isset($filter_attributes) && !empty($filter_attributes)">
+            <li id="filter_attributes">
                 <h4>Filter by attributes:</h4>
                 <table class="filterTable">
                     <tbody>
@@ -112,3 +112,4 @@
         });
     });
 </script>
+<!--@end-->

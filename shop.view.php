@@ -108,6 +108,8 @@ class shopView extends shop {
 		if($_COOKIE['tclnb']) Context::addBodyClass('lnbClose');
 		else Context::addBodyClass('lnbToggleOpen');
 
+        Context::addJsFile($this->module_path.'tpl/js/jquery-ui.js');
+
 		// set browser title
 		Context::setBrowserTitle($shop->get('browser_title') . ' - admin');
 	}
