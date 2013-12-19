@@ -68,8 +68,8 @@
                             <span class="f-right">{ShopDisplay::priceFormat($cart_preview->getTotal(), $shop->getCurrencySymbol())}</span>
                         </p>
                         <p>
-                            <span class="f-left"><a href="{getURL('', 'act','dispShopCart')}">{$lang->edit_cart}</a></span>
-                            <span class="f-right"><a href="{getURL('', 'act','dispShopCheckout')}" cond="$cart && $cart->count()">{$lang->checkout}</a></span>
+                            <span class="f-left"><a href="{getURL('', 'act', 'dispShopCart')}">{$lang->edit_cart}</a></span>
+                            <span class="f-right"><a href="{getURL('', 'act', 'dispShopCheckout')}" cond="$cart && $cart->count()">{$lang->checkout}</a></span>
                         </p>
                     <!--@else-->
                         <p class="a-center">

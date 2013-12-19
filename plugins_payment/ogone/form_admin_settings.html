@@ -1,0 +1,38 @@
+<p>
+    <label for="pspid">PSPID</label>
+    <input type="text" name="pspid" id="pspid" value="{$payment_method->pspid}" />
+</p>
+
+<p>
+    <label for="sha_in_passphrase">SHA In Passphrase</label>
+    <input type="text" name="sha_in_passphrase" id="sha_in_passphrase" value="{$payment_method->sha_in_passphrase}" />
+</p>
+
+<p>
+    <label for="sha_out_passphrase">SHA Out Passphrase</label>
+    <input type="text" name="sha_out_passphrase" id="sha_out_passphrase" value="{$payment_method->sha_out_passphrase}" />
+</p>
+
+<p>
+    <label for="gateway_type">Gateway Type</label>
+    <select id="gateway_type" name="gateway_type">
+        {@ $TEST = 'TEST'; }
+        {@ $PRODUCTION = 'PRODUCTION';}
+        <option value="{$TEST}"
+                tile="{$TEST}"
+                <!--@if($payment_method->gateway_type == $TEST)-->
+                    selected
+                <!--@endif-->
+                >
+            Test
+        </option>
+        <option value="{$PRODUCTION}"
+                title="{$PRODUCTION}"
+                <!--@if($payment_method->gateway_type == $PRODUCTION)-->
+                selected
+                <!--@endif-->
+                >
+            Production
+        </option>
+    </select>
+</p>

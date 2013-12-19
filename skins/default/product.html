@@ -260,7 +260,7 @@
                 </div>
             <!--@end-->
         </div>
-        <form action="./" method="post" cond="isset($product->available) ? $product->available : $product->isAvailable()">
+        <form action="../" method="post" cond="isset($product->available) ? $product->available : $product->isAvailable()">
             <input type="hidden" name="act" value="procShopToolCartAddProduct" />
 
             <h1 style="text-decoration: line-through;"|cond="!$product->isAvailable()">{$product->title}</h1>
