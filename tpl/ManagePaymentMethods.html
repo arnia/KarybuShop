@@ -64,10 +64,8 @@
                         <form method="post" id="payment-method-default" action="./">
                             <input type="hidden" name="name" value="{$payment_method->name}" />
                             <input type="hidden" name="act" value="procShopToolSetPaymentMethodAsDefault" />
-                            <!--<a href="#" onclick="js:alert(jQuery(this).attr('id'));">alert</a>-->
                             <a href="#" onclick="js:jQuery(this).closest('form').submit();">{$lang->set_as_default}</a>
                         </form>
-                       <!-- <a href="{getUrl('act','procShopToolSetPaymentMethodAsDefault','name',$payment_method->name)}">{$lang->set_as_default}</a>-->
                     <!--@end-->
                 </td>
             </tr>
