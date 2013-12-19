@@ -6,7 +6,6 @@
 * - notify() - IPN  - http://www.alex.com/karybu/shop/?act=procShopPaymentNotify&payment_method_name=ogone
 * - onOrderConfirmationPageLoad() - create order - http://www.alex.com/karybu/shop/?act=dispShopOrderConfirmation&payment_method_name=ogone
 *
-* - redirect method - onOrderConfirmationPageLoad()
 * - test IPN
 * - DirectLink
 * - 3DSecure
@@ -62,11 +61,21 @@ class Ogone extends PaymentMethodAbstract
     {
     }
 
+    /**
+     * Ogone form action
+     *
+     * @return string
+     */
     public function getPaymentFormAction()
     {
         return $this->getGatewayType();
     }
 
+    /**
+     * Returns Ogone name
+     *
+     * @return string
+     */
     public function getSelectPaymentHtml()
     {
         return $this->display_name;
@@ -80,6 +89,15 @@ class Ogone extends PaymentMethodAbstract
      */
     public function getPaymentFormHTML()
     {
+        require_once(_KARYBU_PATH_ . 'modules/shop/shop.locales.php');
+        $countries = require_once(_KARYBU_PATH_ . 'modules/shop/shop.countries.php');
+
+        $cart = Context::get('cart');
+        $billing_address = $cart->getBillingAddress();
+        $logged_info = Context::get('logged_info');
+
+        $countryCode = array_search($billing_address->country, $countries);
+
         $passphrase = new Passphrase($this->sha_in_passphrase);
         $shaComposer = new AllParametersShaComposer($passphrase);
         $shaComposer->addParameterFilter(new ShaInParameterFilter);
@@ -87,35 +105,44 @@ class Ogone extends PaymentMethodAbstract
         $paymentRequest = new PaymentRequest($shaComposer);
         $paymentRequest->setOgoneUri($this->getGatewayType());
         $paymentRequest->setPspid($this->pspid);
-        $cart = Context::get('cart');
         $paymentRequest->setOrderid($cart->cart_srl);
 
-        $paymentRequest->setCurrency('EUR');
-        //$paymentRequest->setLanguage(Context::getLangType());
+        $paymentRequest->setCurrency($cart->getCurrency());
+        $paymentRequest->setLanguage(getLocale($countryCode, Context::getLangType()));
+
+        $paymentRequest->setOwnerAddress($billing_address->address);
+        $paymentRequest->setOwnerZip($billing_address->postal_code);
+        $paymentRequest->setOwnerTown($billing_address->city);
+
+        $paymentRequest->setOwnerCountry($countryCode);
 
         //$paymentRequest->setPaymentMethod('CreditCard');
         //$paymentRequest->setBrand('VISA');
 
-        $paymentRequest->setCn($cart->getCustomerFirstname()." ".$cart->getCustomerLastname());
+        $paymentRequest->setCn($cart->getCustomerFirstname() . " " . $cart->getCustomerLastname());
         //$paymentRequest->setEmail($cart->getExtra('email'));
+        $paymentRequest->setEmail($logged_info->email_address);
 
         // $this->getNotifyUrl()
         // $this->getOrderConfirmationPageUrl()
         $paymentRequest->setAccepturl($this->getOrderConfirmationPageUrl());
 
-        //$paymentRequest->setDeclineurl('http://www.alex.com/karybu/shop/?act=dispShopCheckout');
-        //$paymentRequest->setExceptionurl('http://www.alex.com/karybu/shop/?act=dispShopCheckout');
-        //$paymentRequest->setCancelurl('http://www.alex.com/karybu/shop/?act=dispShopCheckout');
+        $vid = Context::get('vid');
+        $shopUrl = getNotEncodedFullUrl('', 'vid', $vid);
+        $checkoutUrl = getNotEncodedFullUrl('', 'vid', $vid, 'act', 'dispShopCheckout');
+        $placeOrderUrl = getNotEncodedFullUrl('', 'vid', $vid, 'act', 'dispShopPlaceOrder');
 
-        //$paymentRequest->setBackurl('http://www.alex.com/karybu/shop/?act=dispShopPlaceOrder');
-        //$paymentRequest->setHomeurl('http://www.alex.com/karybu/shop/');
-        //$paymentRequest->setCatalogurl('http://www.alex.com/karybu/shop/');
+        $paymentRequest->setDeclineurl($checkoutUrl);
+        $paymentRequest->setExceptionurl($checkoutUrl);
+        $paymentRequest->setCancelurl($checkoutUrl);
 
-        //$paymentRequest->setDynamicTemplateUri('http://example.com/template');
+        //$paymentRequest->setBackurl($placeOrderUrl);
+        //$paymentRequest->setHomeurl($shopUrl);
+        //$paymentRequest->setCatalogurl($shopUrl);
 
-        //$paymentRequest->setFeedbackMessage("Thanks for ordering");
-        //$paymentRequest->setOrderDescription("Four horses and a carriage");
+        //$paymentRequest->setDynamicTemplateUri($shopUrl);
 
+        //$paymentRequest->setOrderDescription("Your order");
 
         $paymentRequest->setAmount($cart->getTotal() * 100); // in cents
 
@@ -128,22 +155,26 @@ class Ogone extends PaymentMethodAbstract
         return $html;
     }
 
-    public function getGatewayType(){
-        if($this->properties->gateway_type == 'TEST'){
+    /**
+     * @brief Get test/production URL
+     */
+    public function getGatewayType()
+    {
+        if ($this->properties->gateway_type == 'TEST') {
             return "https://secure.ogone.com/ncol/test/orderstandard_utf8.asp";
-        }else{
+        } else {
             return "https://secure.ogone.com/ncol/prod/orderstandard_utf8.asp";
         }
     }
+
     /**
-     * Handles all IPN notifications from Paypal
+     * Handles all IPN notifications from Ogone
      */
     public function notify($cart)
     {
         $args = $_REQUEST;
 
-        if(__DEBUG__)
-        {
+        if (__DEBUG__) {
             ShopLogger::log("Received IPN Notification: " . http_build_query($args));
         }
 
@@ -152,29 +183,27 @@ class Ogone extends PaymentMethodAbstract
         $shaComposer = new AllParametersShaComposer($passphrase);
         $shaComposer->addParameterFilter(new ShaOutParameterFilter);
 
-        if($paymentResponse->isValid($shaComposer) && $paymentResponse->isSuccessful()) {
+        if ($paymentResponse->isValid($shaComposer) && $paymentResponse->isSuccessful()) {
             // handle payment confirmation
             // params: ACCEPTANCE, STATUS, PAYID, ORDERID
             $params = $paymentResponse->toArray();
             $paymentOrderId = $paymentResponse->getParam('ORDERID');
-            $paymentId =  $paymentResponse->getParam('PAYID');
-            $paymentAmount =  $paymentResponse->getParam('AMOUNT');
-            $paymentCurrency =  $paymentResponse->getParam('CURRENCY');
+            $paymentId = $paymentResponse->getParam('PAYID');
+            $paymentAmount = $paymentResponse->getParam('AMOUNT');
+            $paymentCurrency = $paymentResponse->getParam('CURRENCY');
 
-            if(__DEBUG__)
-            {
+            if (__DEBUG__) {
                 ShopLogger::log("Successfully validated IPN data: " . http_build_query($params));
 
             }
 
-            if(!$order = $this->orderCreatedForThisTransaction($paymentOrderId))
-            {
+            if (!$order = $this->orderCreatedForThisTransaction($paymentOrderId)) {
                 $paymentStatus = $paymentResponse->getParam('STATUS');
                 $paymentAcceptance = $paymentResponse->getParam('ACCEPTANCE');
                 // check the payment_status is Completed
-                if($paymentStatus != 5) // status != Authorized
+                if ($paymentStatus != 5) // status != Authorized
                 {
-                    ShopLogger::log("Payment is not completed. Payment status [" . $paymentStatus. "] received");
+                    ShopLogger::log("Payment is not completed. Payment status [" . $paymentStatus . "] received");
                     $this->markTransactionAsFailedInUserCart(
                         $paymentOrderId,
                         $paymentId,
@@ -184,8 +213,7 @@ class Ogone extends PaymentMethodAbstract
                 }
 
                 $cart = new Cart($paymentOrderId);
-                if(($paymentAmount != $cart->getTotal()) || ($paymentCurrency != $cart->getCurrency()))
-                {
+                if (($paymentAmount != $cart->getTotal()) || ($paymentCurrency != $cart->getCurrency())) {
                     ShopLogger::log("Invalid payment. " . PHP_EOL
                         . "Payment amount [" . $paymentAmount . "] instead of " . $cart->getTotal() . PHP_EOL
                         . "Payment currency [" . $paymentCurrency . "] instead of " . $cart->getCurrency()
@@ -202,14 +230,85 @@ class Ogone extends PaymentMethodAbstract
                 // based on the message received
                 $this->createNewOrderAndDeleteExistingCart($cart, $paymentId);
             }
-        }
-        else {
+        } else {
             // perform logic when the validation fails
-            if(__DEBUG__)
-            {
+            if (__DEBUG__) {
                 ShopLogger::log("Validation for IPN Notification failed.");
             }
         }
+    }
+
+    /**
+     * Page where user is redirected back to after
+     * he completed the payment on the ogone website
+     *
+     * If an order has not been created, we create it now
+     * If payment is complete, we update order status to Processing
+     *
+     * If an error occurred, we show it to the user
+     *
+     * @param $cart
+     * @param $module_srl
+     * @throws NetworkErrorException
+     * @return void
+     */
+    public function onOrderConfirmationPageLoad($cart, $module_srl)
+    {
+        $paymentId = Context::get('PAYID');
+        if (!$paymentId) {
+            return;
+        }
+
+        if (!$order = $this->orderCreatedForThisTransaction($paymentId)) {
+            if ($this->thisTransactionWasAlreadyProcessedAndWasInvalid($cart, $paymentId)) {
+                $this->redirectUserToOrderUnsuccessfulPageAndShowHimTheErrorMessage($cart->getTransactionErrorMessage());
+                return;
+            } else {
+                $this->createNewOrderAndDeleteExistingCart($cart, $paymentId);
+            }
+        } else {
+            // Order already exists for this transaction, so we'll just display it
+            // skipping any requests to ogone
+            Context::set('order_srl', $order->order_srl);
+            return;
+        }
+    }
+
+    /**
+     * Given a transaction id, checks if an order was created or not for it
+     * (from an IPN call, for instance)
+     *
+     * @param $transaction_id
+     * @return boolean
+     */
+    private function orderCreatedForThisTransaction($transaction_id)
+    {
+        $orderRepository = new OrderRepository();
+        $order = $orderRepository->getOrderByTransactionId($transaction_id);
+        return $order;
+    }
+
+    /**
+     * Checks if a transaction was already processed but was invalid
+     * causing the order not to be created;
+     * Thus, even though there is no order created, we should not parse this again
+     */
+    private function thisTransactionWasAlreadyProcessedAndWasInvalid(Cart $cart, $transaction_id)
+    {
+        return $cart->getTransactionId()
+        && $cart->getTransactionId() == $transaction_id;
+    }
+
+    /**
+     * Redirects the user to an error page, informing him why the payment failed
+     *
+     * @param $error_message
+     */
+    private function redirectUserToOrderUnsuccessfulPageAndShowHimTheErrorMessage($error_message)
+    {
+        $shopController = getController('shop');
+        $shopController->setMessage($error_message, "error");
+        $this->redirect($this->getPlaceOrderPageUrl());
     }
 
     /**
