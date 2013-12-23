@@ -1,0 +1,15 @@
+{@ $pub_key = ($payment_method->env_type == 'TESTING')?$payment_method->test_public_key:$payment_method->live_public_key }
+
+{@ $prod_list = ''; }
+<!--@foreach($cart->getProducts() as $product)-->
+{@ $prod_list .= $product->quantity.' '.$product->title.", "; }
+<!--@end-->
+{@ $prod_list = substr($prod_list,0,strlen($prod_list)-2); }
+
+    <script
+        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="{$pub_key}"
+        data-amount="{$cart->getTotal() * 100}"
+        data-name="Payment Form"
+        data-description="{$prod_list}">
+    </script>

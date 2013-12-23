@@ -1,0 +1,34 @@
+{@ $billing_address = $cart->getBillingAddress() }
+{@ $pub_key = ($payment_method->env_type == 'TESTING')?$payment_method->test_public_key:$payment_method->live_public_key }
+
+{@ $prod_list = ''; }
+<!--@foreach($cart->getProducts() as $product)-->
+{@ $prod_list .= $product->quantity.' '.$product->title.", "; }
+<!--@end-->
+{@ $prod_list = substr($prod_list,0,strlen($prod_list)-2); }
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+
+<script>
+    jQuery( document ).ready(function() {
+        var handler = StripeCheckout.configure({
+            key: '{$pub_key}',
+            token: function(token, args) {
+                // Use the token to create the charge with a server-side script.
+            }
+        });
+
+        jQuery('input[type=submit]').click(function(e) {
+            handler.open({
+                name: 'Payment Form',
+                currency: '{$shop->getCurrency()}',
+                //billingAddress: '{$billing_address->address}',
+                //shippingAddress: '',
+                email: '{$logged_info->email_address}',
+                description: '{$prod_list}',
+                amount: '{$cart->getTotal() * 100}'
+            });
+            e.preventDefault();
+        });
+    });
+</script>

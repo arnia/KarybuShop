@@ -1,0 +1,40 @@
+<h3>Test Keys</h3>
+<p>
+    <label for="test_secret_key">Test Secret Key:</label>
+    <input type="text" name="test_secret_key" id="test_secret_key" value="{$payment_method->test_secret_key}" />
+</p>
+<p>
+    <label for="test_public_key">Test Publishable Key</label>
+    <input type="text" name="test_public_key" id="test_public_key" value="{$payment_method->test_public_key}" >
+</p>
+
+<h3>Live Keys</h3>
+<p>
+    <label for="live_secret_key">Live Secret Key:</label>
+    <input type="text" name="live_secret_key" id="live_secret_key" value="{$payment_method->live_secret_key}" />
+</p>
+<p>
+    <label for="live_public_key">Live Publishable Key</label>
+    <input type="text" name="live_public_key" id="live_public_key" value="{$payment_method->live_public_key}" >
+</p>
+
+<h3>Environment</h3>
+<p>
+    <label for="env_type">Environment Type</label>
+    <select name="env_type" id="env_type">
+        <option value="TESTING"
+        <!--@if($payment_method->env_type == 'TESTING')-->
+        selected="selected"
+        <!--@end-->
+        >
+        TESTING
+        </option>
+        <option value="LIVE"
+        <!--@if($payment_method->env_type == 'LIVE')-->
+        selected="selected"
+        <!--@end-->
+        >
+        LIVE
+        </option>
+    </select>
+</p>

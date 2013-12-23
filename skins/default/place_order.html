@@ -27,7 +27,7 @@
     {@ $product_container = $cart; }
     <include target="product_items" />
 
-    <form action="{$payment_method->getPaymentFormAction()}" method="post">
+    <form id="payment-form" action="{$payment_method->getPaymentFormAction()}" method="post">
         <input type="hidden" name="act" value="procShopPlaceOrder" />
         <input type="hidden" name="payment_method" value="{$payment_method_name}" />
 

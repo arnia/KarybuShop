@@ -54,10 +54,18 @@
                 <td>
                     <!--@if($payment_method->isActive())-->
                         <!--@if(!$payment_method->isDefault())-->
-                            <a href="{getUrl('act','procUpdateShopDeactivatePaymentMethod','name',$payment_method->name)}">{$lang->deactivate}</a>
+                            <form method="post" id="payment-method-deactivate" action="./">
+                                <input type="hidden" name="name" value="{$payment_method->name}" />
+                                <input type="hidden" name="act" value="procUpdateShopDeactivatePaymentMethod" />
+                                <a href="#" onclick="js:jQuery(this).closest('form').submit();">{$lang->deactivate}</a>
+                            </form>
                         <!--@end-->
                     <!--@else-->
-                        <a href="{getUrl('act','procUpdateShopActivatePaymentMethod','name',$payment_method->name)}">{$lang->activate}</a>
+                        <form method="post" id="payment-method-activate" action="./">
+                            <input type="hidden" name="name" value="{$payment_method->name}" />
+                            <input type="hidden" name="act" value="procUpdateShopActivatePaymentMethod" />
+                            <a href="#" onclick="js:jQuery(this).closest('form').submit();">{$lang->activate}</a>
+                        </form>
                     <!--@end-->
                     <!--@if($payment_method->isActive() && !$payment_method->isDefault())-->
                         &nbsp;|&nbsp;
