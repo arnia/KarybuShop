@@ -61,39 +61,38 @@ class Stripe extends PaymentMethodAbstract
 
         if ($event['type'] == 'charge.succeeded') {
             $charge = $event['data']['object'];
+            $paymentId = $charge['id'];
+            $paymentAmount = $charge['amount'];
+            $paymentCurrency = $charge['currency'];
 
-            /*
-            if (!$order = $this->orderCreatedForThisTransaction($paymentOrderId)) {
-                $paymentStatus = $paymentResponse->getParam('STATUS');
-                $paymentAcceptance = $paymentResponse->getParam('ACCEPTANCE');
-                // check the payment_status is Completed
-                if ($paymentStatus != 5) // status != Authorized
+            if (!$order = $this->orderCreatedForThisTransaction($paymentId)) {
+                // check the payment
+                if ($charge['paid'] != true)
                 {
-                    ShopLogger::log("Payment is not completed. Payment status [" . $paymentStatus . "] received");
+                    ShopLogger::log("Payment is not completed.");
                     $this->markTransactionAsFailedInUserCart(
-                        $paymentOrderId,
+                        $paymentId,
                         $paymentId,
                         "Your payment was not completed. Your order was not created."
                     );
                     return;
                 }
 
-                $cart = new Cart($paymentOrderId);
+                $cart = new Cart($paymentId);
                 if (($paymentAmount != $cart->getTotal()) || ($paymentCurrency != $cart->getCurrency())) {
                     ShopLogger::log("Invalid payment. " . PHP_EOL
                         . "Payment amount [" . $paymentAmount . "] instead of " . $cart->getTotal() . PHP_EOL
                         . "Payment currency [" . $paymentCurrency . "] instead of " . $cart->getCurrency()
                     );
                     $this->markTransactionAsFailedInUserCart(
-                        $paymentOrderId,
+                        $paymentId,
                         $paymentId,
                         "Your payment was invalid. Your order was not created."
                     );
                     return;
                 }
 
-                // 3. If the source of the POST is correct, we can now use the data to create an order
-                // based on the message received
+                // create order
                 $this->createNewOrderAndDeleteExistingCart($cart, $paymentId);
             } else {
                 // perform logic when the validation fails
@@ -102,7 +101,6 @@ class Stripe extends PaymentMethodAbstract
                 }
 
             }
-            */
         }
     }
 
@@ -144,7 +142,6 @@ class Stripe extends PaymentMethodAbstract
             return;
         }
 
-        /*
         $paymentId = $charge['id'];
         if (!$paymentId) {
             return;
@@ -163,7 +160,6 @@ class Stripe extends PaymentMethodAbstract
             Context::set('order_srl', $order->order_srl);
             return;
         }
-        */
     }
 
     /**
