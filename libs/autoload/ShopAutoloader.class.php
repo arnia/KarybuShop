@@ -29,6 +29,7 @@ class ShopAutoloader
         //if the class is in the /classes dir then we load it
         if (file_exists($path = __DIR__ . "/{$this->bulkPath}/$class.php")) {
             $this->getFile($path, $class);
+        //} elseif (file_exists(__DIR__ . "/../repositories/$repoClass.php")) {
         }
         else //else use the model and repo
         {
@@ -49,7 +50,8 @@ class ShopAutoloader
                 }
 
                 if (!in_array($class, array('ShippingMethod','PaymentMethod'))) {
-                    $this->getFile(__DIR__ . "/../model/$itemClass.php", $itemClass);
+                    if (file_exists(__DIR__ . "/../model/$itemClass.php"))
+                        $this->getFile(__DIR__ . "/../model/$itemClass.php", $itemClass);
                 }
                 else
                 {
@@ -65,8 +67,14 @@ class ShopAutoloader
                         $this->getFile(__DIR__ . "/../../plugins_shipping/$itemClass.php", $itemClass);
                     }
                 }
-                if(in_array($class, array('ShopMenu', 'CartProduct', 'OrderProduct'))) return;
-                $this->getFile(__DIR__ . "/../repositories/$repoClass.php", $repoClass);
+                if (in_array($class, array('ShopMenu', 'CartProduct', 'OrderProduct'))) return;
+                if (file_exists(__DIR__ . "/../repositories/$repoClass.php"))
+                    $this->getFile(__DIR__ . "/../repositories/$repoClass.php", $repoClass);
+
+                foreach (glob(__DIR__ . "/../../plugins_payment/*", GLOB_ONLYDIR) as $dir) {
+                    if (file_exists($dir . "/lib/$itemClass.php"))
+                        $this->getFile($dir . "/lib/$itemClass.php", $itemClass);
+                }
             }
         }
     }

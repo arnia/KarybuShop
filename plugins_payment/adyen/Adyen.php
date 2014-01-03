@@ -1,34 +1,19 @@
 <?php
 
 /*
-* TODO
-*
-* - testat IPN
-* - DirectLink ???
-* - 3DSecure ???
-*
-* - notify() - IPN  - http://www.alex.com/karybu/shop/?act=procShopPaymentNotify&payment_method_name=ogone
-* - onOrderConfirmationPageLoad() - create order - http://www.alex.com/karybu/shop/?act=dispShopOrderConfirmation&payment_method_name=ogone
-*
-*/
-
-use Ogone\Passphrase;
-use Ogone\PaymentRequest;
-use Ogone\PaymentResponse;
-use Ogone\ShaComposer\ShaComposer;
-use Ogone\ShaComposer\AllParametersShaComposer;
-use Ogone\ParameterFilter\ShaInParameterFilter;
-use Ogone\FormGenerator\FormGenerator;
-use Ogone\FormGenerator\SimpleFormGenerator;
-use InvalidArgumentException;
+ * TODO
+ *
+ * - terminat notify()
+ * - testat IPN
+ */
 
 /**
- * Class for integrating Ogone payment gateway in XE Shop
+ * Class for integrating Adyen payment gateway in XE Shop
  *
  * @author Alexandru Ganga (alexandru.ganga@arnia.ro)
  */
 
-class Ogone extends PaymentMethodAbstract
+class Adyen extends PaymentMethodAbstract
 {
     /**
      * User friendly name for this payment plugin
@@ -37,7 +22,7 @@ class Ogone extends PaymentMethodAbstract
      */
     public function getDisplayName()
     {
-        return 'Ogone';
+        return 'Adyen';
     }
 
     /**
@@ -52,7 +37,7 @@ class Ogone extends PaymentMethodAbstract
     }
 
     /**
-     * Ogone form action
+     * Adyen form action
      *
      * @return string
      */
@@ -62,7 +47,7 @@ class Ogone extends PaymentMethodAbstract
     }
 
     /**
-     * Returns Ogone name
+     * Returns Adyen name
      *
      * @return string
      */
@@ -88,57 +73,18 @@ class Ogone extends PaymentMethodAbstract
 
         $countryCode = array_search($billing_address->country, $countries);
 
-        $passphrase = new Passphrase($this->sha_in_passphrase);
-        $shaComposer = new AllParametersShaComposer($passphrase);
-        $shaComposer->addParameterFilter(new ShaInParameterFilter);
-
-        $paymentRequest = new PaymentRequest($shaComposer);
-        $paymentRequest->setOgoneUri($this->getGatewayType());
-        $paymentRequest->setPspid($this->pspid);
-        $paymentRequest->setOrderid($cart->cart_srl);
-
-        $paymentRequest->setCurrency($cart->getCurrency());
-        $paymentRequest->setLanguage(getLocale($countryCode, Context::getLangType()));
-
-        $paymentRequest->setOwnerAddress($billing_address->address);
-        $paymentRequest->setOwnerZip($billing_address->postal_code);
-        $paymentRequest->setOwnerTown($billing_address->city);
-
-        $paymentRequest->setOwnerCountry($countryCode);
-
-        //$paymentRequest->setPaymentMethod('CreditCard');
-        //$paymentRequest->setBrand('VISA');
-
-        $paymentRequest->setCn($cart->getCustomerFirstname() . " " . $cart->getCustomerLastname());
-        //$paymentRequest->setEmail($cart->getExtra('email'));
-        $paymentRequest->setEmail($logged_info->email_address);
-
-        // $this->getNotifyUrl()
-        // $this->getOrderConfirmationPageUrl()
-        $paymentRequest->setAccepturl($this->getOrderConfirmationPageUrl());
-
-        $vid = Context::get('vid');
-        $shopUrl = getNotEncodedFullUrl('', 'vid', $vid);
-        $checkoutUrl = getNotEncodedFullUrl('', 'vid', $vid, 'act', 'dispShopCheckout');
-        $placeOrderUrl = getNotEncodedFullUrl('', 'vid', $vid, 'act', 'dispShopPlaceOrder');
-
-        $paymentRequest->setDeclineurl($checkoutUrl);
-        $paymentRequest->setExceptionurl($checkoutUrl);
-        $paymentRequest->setCancelurl($checkoutUrl);
-
-        //$paymentRequest->setBackurl($placeOrderUrl);
-        //$paymentRequest->setHomeurl($shopUrl);
-        //$paymentRequest->setCatalogurl($shopUrl);
-
-        //$paymentRequest->setDynamicTemplateUri($shopUrl);
-
-        //$paymentRequest->setOrderDescription("Your order");
-
-        $paymentRequest->setAmount($cart->getTotal() * 100); // in cents
-
+        $paymentRequest = new Adyen\PaymentRequest($this->secret_key);
+        $paymentRequest->setMerchantAccount($this->merchant_account);
+        $paymentRequest->setSkinCode($this->skin_code);
+        $paymentRequest->setCurrencyCode($cart->getCurrency());
+        $paymentRequest->setShopperLocale(getLocale($countryCode, Context::getLangType()));
+        $paymentRequest->setCountryCode($countryCode);
+        $paymentRequest->setShopperEmail($logged_info->email_address);
+        $paymentRequest->setResultUrl($this->getOrderConfirmationPageUrl());
+        $paymentRequest->setPaymentAmount($cart->getTotal() * 100); // in cents
         $paymentRequest->validate();
 
-        $formGenerator = new SimpleFormGenerator;
+        $formGenerator = new Adyen\FormGenerator;
         $formGenerator->showSubmitButton(false);
         $html = $formGenerator->render($paymentRequest);
 
@@ -150,18 +96,19 @@ class Ogone extends PaymentMethodAbstract
      */
     public function getGatewayType()
     {
-        if ($this->properties->gateway_type == 'TEST') {
-            return "https://secure.ogone.com/ncol/test/orderstandard_utf8.asp";
+        if ($this->properties->test == 'TEST') {
+            return "https://test.adyen.com/hpp/select.shtml";
         } else {
-            return "https://secure.ogone.com/ncol/prod/orderstandard_utf8.asp";
+            return "https://live.adyen.com/hpp/select.shtml";
         }
     }
 
     /**
-     * Handles all IPN notifications from Ogone
+     * Handles all IPN notifications from Adyen
      */
     public function notify($cart)
     {
+        /*
         $args = $_REQUEST;
 
         if (__DEBUG__) {
@@ -226,11 +173,12 @@ class Ogone extends PaymentMethodAbstract
                 ShopLogger::log("Validation for IPN Notification failed.");
             }
         }
+        */
     }
 
     /**
      * Page where user is redirected back to after
-     * he completed the payment on the ogone website
+     * he completed the payment on the Adyen website
      *
      * If an order has not been created, we create it now
      * If payment is complete, we update order status to Processing
@@ -244,23 +192,26 @@ class Ogone extends PaymentMethodAbstract
      */
     public function onOrderConfirmationPageLoad($cart, $module_srl)
     {
-        $paymentId = Context::get('PAYID');
-        if (!$paymentId) {
-            return;
-        }
-
-        if (!$order = $this->orderCreatedForThisTransaction($paymentId)) {
-            if ($this->thisTransactionWasAlreadyProcessedAndWasInvalid($cart, $paymentId)) {
-                $this->redirectUserToOrderUnsuccessfulPageAndShowHimTheErrorMessage($cart->getTransactionErrorMessage());
+        $result = Context::get('authResult');
+        $paymentId = Context::get('pspReference');
+        if (($result == 'AUTHORISED') || ($result == 'PENDING')) {
+            if (!$paymentId) {
                 return;
-            } else {
-                $this->createNewOrderAndDeleteExistingCart($cart, $paymentId);
             }
-        } else {
-            // Order already exists for this transaction, so we'll just display it
-            // skipping any requests to ogone
-            Context::set('order_srl', $order->order_srl);
-            return;
+
+            if (!$order = $this->orderCreatedForThisTransaction($paymentId)) {
+                if ($this->thisTransactionWasAlreadyProcessedAndWasInvalid($cart, $paymentId)) {
+                    $this->redirectUserToOrderUnsuccessfulPageAndShowHimTheErrorMessage($cart->getTransactionErrorMessage());
+                    return;
+                } else {
+                    $this->createNewOrderAndDeleteExistingCart($cart, $paymentId);
+                }
+            } else {
+                // Order already exists for this transaction, so we'll just display it
+                // skipping any requests to Adyen
+                Context::set('order_srl', $order->order_srl);
+                return;
+            }
         }
     }
 
@@ -306,7 +257,8 @@ class Ogone extends PaymentMethodAbstract
      */
     public function isConfigured(&$error_message = 'msg_invalid_request')
     {
-        if (!isset($this->pspid) || !isset($this->sha_in_passphrase) || !isset($this->gateway_type)) {
+        if (!isset($this->merchant_account) || !isset($this->secret_key) || !isset($this->skin_code)
+                 || !isset($this->test)) {
             $error_message = 'msg_authorize_missing_fields';
             return FALSE;
         }

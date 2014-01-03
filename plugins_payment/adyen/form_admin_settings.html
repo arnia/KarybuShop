@@ -1,0 +1,38 @@
+<p>
+    <label for="merchant_account">Your merchant account</label>
+    <input type="text" name="merchant_account" id="merchant_account" value="{$payment_method->merchant_account}" />
+</p>
+
+<p>
+    <label for="secret_key">Your secret key</label>
+    <input type="text" name="secret_key" id="secret_key" value="{$payment_method->secret_key}" />
+</p>
+
+<p>
+    <label for="skin_code">Your skin code</label>
+    <input type="text" name="skin_code" id="skin_code" value="{$payment_method->skin_code}" />
+</p>
+
+<p>
+    <label for="test">Gateway Type</label>
+    <select id="test" name="test">
+        {@ $TEST = 'TEST'; }
+        {@ $PRODUCTION = 'PRODUCTION';}
+        <option value="{$TEST}"
+                tile="{$TEST}"
+                <!--@if($payment_method->test == $TEST)-->
+                    selected
+                <!--@endif-->
+                >
+            Test
+        </option>
+        <option value="{$PRODUCTION}"
+                title="{$PRODUCTION}"
+                <!--@if($payment_method->test == $PRODUCTION)-->
+                selected
+                <!--@endif-->
+                >
+            Production
+        </option>
+    </select>
+</p>

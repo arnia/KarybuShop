@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * TODO
+ *
+ * - testat IPN
+ */
 
 /**
  * Class for integrating Stripe payment gateway in XE Shop
@@ -44,7 +49,7 @@ class Stripe extends PaymentMethodAbstract
      */
     public function notify($cart)
     {
-        require_once('./lib/Stripe.php');
+        include_once(__DIR__ . '/lib/Stripe.php');
 
         $secret_key = ($this->env_type == 'TESTING')?$this->test_secret_key:$this->live_secret_key;
         Stripe::setApiKey($secret_key);
@@ -120,7 +125,7 @@ class Stripe extends PaymentMethodAbstract
      */
     public function onOrderConfirmationPageLoad($cart, $module_srl)
     {
-        require_once('./lib/Stripe.php');
+        include_once(__DIR__ . '/lib/Stripe.php');
 
         $secret_key = ($this->env_type == 'TESTING')?$this->test_secret_key:$this->live_secret_key;
         Stripe::setApiKey($secret_key);
