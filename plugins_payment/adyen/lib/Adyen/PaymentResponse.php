@@ -135,12 +135,6 @@ class PaymentResponse
 		}
 	}
 
-	public function isSuccessful()
-	{
-		// @todo use constants
-		return in_array($this->getParam('authResult'), array(5, 9));
-	}
-
 	public function toArray()
 	{
 		return $this->parameters + array(self::SIGNATURE_FIELD => $this->signature);

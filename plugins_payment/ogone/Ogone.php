@@ -6,10 +6,6 @@
 * - testat IPN
 * - DirectLink ???
 * - 3DSecure ???
-*
-* - notify() - IPN  - http://www.alex.com/karybu/shop/?act=procShopPaymentNotify&payment_method_name=ogone
-* - onOrderConfirmationPageLoad() - create order - http://www.alex.com/karybu/shop/?act=dispShopOrderConfirmation&payment_method_name=ogone
-*
 */
 
 use Ogone\Passphrase;
@@ -202,7 +198,7 @@ class Ogone extends PaymentMethodAbstract
                     return;
                 }
 
-                $cart = new Cart($paymentOrderId);
+                $cart = new Cart($paymenOrderId);
                 if (($paymentAmount != $cart->getTotal()) || ($paymentCurrency != $cart->getCurrency())) {
                     ShopLogger::log("Invalid payment. " . PHP_EOL
                         . "Payment amount [" . $paymentAmount . "] instead of " . $cart->getTotal() . PHP_EOL

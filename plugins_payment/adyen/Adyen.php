@@ -3,8 +3,8 @@
 /*
  * TODO
  *
- * - terminat notify()
  * - testat IPN
+ * - la toate metodele de plata la NOTIFY: $order->order_status=COMPLETED
  */
 
 /**
@@ -108,72 +108,56 @@ class Adyen extends PaymentMethodAbstract
      */
     public function notify($cart)
     {
-        /*
         $args = $_REQUEST;
-
         if (__DEBUG__) {
             ShopLogger::log("Received IPN Notification: " . http_build_query($args));
         }
 
-        $paymentResponse = new PaymentResponse($args);
-        $passphrase = new Passphrase($this->sha_out_passphrase);
-        $shaComposer = new AllParametersShaComposer($passphrase);
-        $shaComposer->addParameterFilter(new ShaOutParameterFilter);
+        $notificationResponse = new Adyen\NotificationResponse($args);
 
-        if ($paymentResponse->isValid($shaComposer) && $paymentResponse->isSuccessful()) {
-            // handle payment confirmation
-            // params: ACCEPTANCE, STATUS, PAYID, ORDERID
-            $params = $paymentResponse->toArray();
-            $paymentOrderId = $paymentResponse->getParam('ORDERID');
-            $paymentId = $paymentResponse->getParam('PAYID');
-            $paymentAmount = $paymentResponse->getParam('AMOUNT');
-            $paymentCurrency = $paymentResponse->getParam('CURRENCY');
+        // handle payment confirmation
+        $params = $notificationResponse->toArray();
+        $paymentId = $notificationResponse->getParam('pspReference');
+        $paymentAmount = $notificationResponse->getAmount();
+        $paymentCurrency = $notificationResponse->getCurrency();
 
-            if (__DEBUG__) {
-                ShopLogger::log("Successfully validated IPN data: " . http_build_query($params));
-
-            }
-
-            if (!$order = $this->orderCreatedForThisTransaction($paymentOrderId)) {
-                $paymentStatus = $paymentResponse->getParam('STATUS');
-                $paymentAcceptance = $paymentResponse->getParam('ACCEPTANCE');
-                // check the payment_status is Completed
-                if ($paymentStatus != 5) // status != Authorized
-                {
-                    ShopLogger::log("Payment is not completed. Payment status [" . $paymentStatus . "] received");
-                    $this->markTransactionAsFailedInUserCart(
-                        $paymentOrderId,
-                        $paymentId,
-                        "Your payment was not completed. Your order was not created."
-                    );
-                    return;
-                }
-
-                $cart = new Cart($paymentOrderId);
-                if (($paymentAmount != $cart->getTotal()) || ($paymentCurrency != $cart->getCurrency())) {
-                    ShopLogger::log("Invalid payment. " . PHP_EOL
-                        . "Payment amount [" . $paymentAmount . "] instead of " . $cart->getTotal() . PHP_EOL
-                        . "Payment currency [" . $paymentCurrency . "] instead of " . $cart->getCurrency()
-                    );
-                    $this->markTransactionAsFailedInUserCart(
-                        $paymentOrderId,
-                        $paymentId,
-                        "Your payment was invalid. Your order was not created."
-                    );
-                    return;
-                }
-
-                // 3. If the source of the POST is correct, we can now use the data to create an order
-                // based on the message received
-                $this->createNewOrderAndDeleteExistingCart($cart, $paymentId);
-            }
-        } else {
-            // perform logic when the validation fails
-            if (__DEBUG__) {
-                ShopLogger::log("Validation for IPN Notification failed.");
-            }
+        if (__DEBUG__) {
+            ShopLogger::log("Successfully validated IPN data: " . http_build_query($params));
         }
-        */
+
+        if (!$order = $this->orderCreatedForThisTransaction($paymentId)) {
+            $paymentCartId = $order->cart_srl;
+            $paymentStatus = $notificationResponse->getParam('success');
+            // check the payment_status is true
+            if (!$paymentStatus)
+            {
+                ShopLogger::log("Payment is not completed. Payment status [" . $paymentStatus . "] received");
+                $this->markTransactionAsFailedInUserCart(
+                    $paymentCartId,
+                    $paymentId,
+                    "Your payment was not completed. Your order was not created."
+                );
+                return;
+            }
+
+            $cart = new Cart($paymentCartId);
+            if (($paymentAmount != $cart->getTotal()) || ($paymentCurrency != $cart->getCurrency())) {
+                ShopLogger::log("Invalid payment. " . PHP_EOL
+                    . "Payment amount [" . $paymentAmount . "] instead of " . $cart->getTotal() . PHP_EOL
+                    . "Payment currency [" . $paymentCurrency . "] instead of " . $cart->getCurrency()
+                );
+                $this->markTransactionAsFailedInUserCart(
+                    $paymentCartId,
+                    $paymentId,
+                    "Your payment was invalid. Your order was not created."
+                );
+                return;
+            }
+
+            // 3. If the source of the POST is correct, we can now use the data to create an order
+            // based on the message received
+            $this->createNewOrderAndDeleteExistingCart($cart, $paymentId);
+        }
     }
 
     /**
@@ -192,6 +176,11 @@ class Adyen extends PaymentMethodAbstract
      */
     public function onOrderConfirmationPageLoad($cart, $module_srl)
     {
+        $args = $_REQUEST;
+        $paymentResponse = new Adyen\PaymentResponse($args);
+        if (!$paymentResponse->isValid($this->secret_key))
+            return;
+
         $result = Context::get('authResult');
         $paymentId = Context::get('pspReference');
         if (($result == 'AUTHORISED') || ($result == 'PENDING')) {
