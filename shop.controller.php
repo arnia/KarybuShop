@@ -1282,7 +1282,7 @@
 
             // Get payment class
             $payment_repository = new PaymentMethodRepository();
-            $payment_method = $payment_repository->getPaymentMethod($cart->getPaymentMethodName(), $this->mpaymeodule_srl);
+            $payment_method = $payment_repository->getPaymentMethod($cart->getPaymentMethodName(), $this->module_srl);
 
             $error_message = '';
             if(!$payment_method->processPayment($cart, $error_message))
