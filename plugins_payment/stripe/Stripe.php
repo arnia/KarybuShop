@@ -3,7 +3,7 @@
 /*
  * TODO
  *
- * - testat IPN
+ * - test IPN
  */
 
 /**
@@ -47,7 +47,7 @@ class Stripe extends PaymentMethodAbstract
     /**
      * Handles all IPN notifications from Stripe
      */
-    public function notify($cart)
+    public function notify()
     {
         include_once(__DIR__ . '/lib/Stripe.php');
 
@@ -71,26 +71,27 @@ class Stripe extends PaymentMethodAbstract
             $paymentCurrency = $charge['currency'];
 
             if (!$order = $this->orderCreatedForThisTransaction($paymentId)) {
+                $paymentCartId = $order->cart_srl;
                 // check the payment
                 if ($charge['paid'] != true)
                 {
                     ShopLogger::log("Payment is not completed.");
                     $this->markTransactionAsFailedInUserCart(
-                        $paymentId,
+                        $paymentCartId,
                         $paymentId,
                         "Your payment was not completed. Your order was not created."
                     );
                     return;
                 }
 
-                $cart = new Cart($paymentId);
+                $cart = new Cart($paymentCartId);
                 if (($paymentAmount != $cart->getTotal()) || ($paymentCurrency != $cart->getCurrency())) {
                     ShopLogger::log("Invalid payment. " . PHP_EOL
                         . "Payment amount [" . $paymentAmount . "] instead of " . $cart->getTotal() . PHP_EOL
                         . "Payment currency [" . $paymentCurrency . "] instead of " . $cart->getCurrency()
                     );
                     $this->markTransactionAsFailedInUserCart(
-                        $paymentId,
+                        $paymentCartId,
                         $paymentId,
                         "Your payment was invalid. Your order was not created."
                     );
@@ -99,13 +100,40 @@ class Stripe extends PaymentMethodAbstract
 
                 // create order
                 $this->createNewOrderAndDeleteExistingCart($cart, $paymentId);
-            } else {
-                // perform logic when the validation fails
-                if (__DEBUG__) {
-                    ShopLogger::log("Validation for IPN Notification failed.");
-                }
 
+                // get created order
+                $model = getModel('shop');
+                $orderRepository = $model->getOrderRepository();
+                $order_srl = Context::get('order_srl');
+                $order = $orderRepository->getOrderBySrl($order_srl);
             }
+
+            // generate invoice
+            $args = new StdClass();
+            $args->order_srl = $order->order_srl;
+            $args->module_srl = $order->module_srl;
+            $invoice = new Invoice($args);
+            $invoice->save();
+            if ($invoice->invoice_srl) {
+                if (isset($order->shipment))
+                    $order->order_status = Order::ORDER_STATUS_COMPLETED;
+                else
+                    $order->order_status = Order::ORDER_STATUS_PROCESSING;
+                try {
+                    $order->save();
+                }
+                catch(Exception $e) {
+                    return new Object(-1, $e->getMessage());
+                }
+            } else {
+                throw new ShopException('Something whent wrong when adding invoice');
+            }
+        } else {
+            // perform logic when the validation fails
+            if (__DEBUG__) {
+                ShopLogger::log("IPN Notification failed.");
+            }
+
         }
     }
 

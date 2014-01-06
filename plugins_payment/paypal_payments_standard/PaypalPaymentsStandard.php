@@ -164,7 +164,7 @@ class PaypalPaymentsStandard extends PaymentMethodAbstract
     /**
      * Handles all IPN notifications from Paypal
      */
-    public function notify($cart)
+    public function notify()
     {
         // 1. Retrieve all POST data received and post back to paypal, to make sure
         // the request sender is not fake
@@ -233,6 +233,33 @@ class PaypalPaymentsStandard extends PaymentMethodAbstract
                 // 3. If the source of the POST is correct, we can now use the data to create an order
                 // based on the message received
                 $this->createNewOrderAndDeleteExistingCart($cart, $payment_info->txn_id);
+
+                // get created order
+                $model = getModel('shop');
+                $orderRepository = $model->getOrderRepository();
+                $order_srl = Context::get('order_srl');
+                $order = $orderRepository->getOrderBySrl($order_srl);
+            }
+
+            // generate invoice
+            $args = new StdClass();
+            $args->order_srl = $order->order_srl;
+            $args->module_srl = $order->module_srl;
+            $invoice = new Invoice($args);
+            $invoice->save();
+            if ($invoice->invoice_srl) {
+                if (isset($order->shipment))
+                    $order->order_status = Order::ORDER_STATUS_COMPLETED;
+                else
+                    $order->order_status = Order::ORDER_STATUS_PROCESSING;
+                try {
+                    $order->save();
+                }
+                catch(Exception $e) {
+                    return new Object(-1, $e->getMessage());
+                }
+            } else {
+                throw new ShopException('Something whent wrong when adding invoice');
             }
         }
         else
